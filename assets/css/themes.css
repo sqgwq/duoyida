@@ -1,0 +1,255 @@
+/* ============================================================================
+ * 皮肤层（themes.css）—— 只重新赋值令牌，不碰任何组件样式
+ *
+ * 三轴正交，各自独立命名空间：
+ *   [data-ui-base]    底座：配色与中性色阶
+ *   [data-ui-style]   风格：圆角 / 密度 / 阴影
+ *   [data-ui-motion]  动效：时长与曲线
+ *
+ * 为什么分轴：这三层本就不在一个层面上 —— 底座来自 shadcn 的色板，
+ * 风格来自本项目的工业基调，动效来自 transitions.dev。
+ * 合起来写就是「6 套固定皮肤」；分开写则是乘积，且能表达
+ * 「用 shadcn 的冷灰底色 + 本项目的锐利圆角」这种组合。
+ *
+ * 规矩：新增一套皮肤 = 在这里加一个块 + 在 data.js 的选项数组里加一项。
+ *      **组件样式（styles.css）一行都不用动。**
+ *      若必须动组件才换得动，说明令牌层没抽干净，那是令牌层的 bug。
+ * ========================================================================== */
+
+/* ==========================================================================
+ * 一、底座轴：配色
+ * ========================================================================== */
+
+/* 1) 钢蓝（默认）—— 取自宣传册本身的品牌色，见 tokens.css 取值溯源。
+   默认值**不在这里声明**：它就是 tokens.css :root 里的值。
+   若在这里再写一遍，两处就会各自漂移。 */
+
+/* 2) slate —— shadcn/ui 官方 slate 色板（冷灰，略偏蓝） */
+[data-ui-base="slate"] {
+  --bg-page: oklch(0.984 0.003 247.858);
+  --bg: oklch(1 0 0);
+  --surface: oklch(1 0 0);
+  --surface-alt: oklch(0.968 0.007 247.896);
+  --surface-sunken: oklch(0.951 0.008 247.9);
+  --track: oklch(0.929 0.013 255.508);
+
+  --text: oklch(0.208 0.042 265.755);
+  --text-muted: oklch(0.554 0.046 257.417);
+  --text-light: oklch(0.66 0.035 257);
+  --text-invert: oklch(1 0 0);
+  --text-invert-muted: oklch(0.88 0.02 255);
+
+  --border: oklch(0.929 0.013 255.508);
+  --border-strong: oklch(0.869 0.022 252.894);
+  --border-invert: oklch(1 0 0 / 0.24);
+
+  --brand: oklch(0.208 0.042 265.755);
+  --brand-strong: oklch(0.155 0.032 265.7);
+  --brand-hover: oklch(0.28 0.05 265);
+  --brand-soft: oklch(0.951 0.012 264);
+  --brand-tint: oklch(0.975 0.006 264);
+  --accent: oklch(0.554 0.046 257.417);
+  --accent-strong: oklch(0.45 0.05 257);
+
+  --scrim: linear-gradient(
+    100deg,
+    oklch(0.155 0.03 265.7 / 0.93) 0%,
+    oklch(0.21 0.04 265.7 / 0.78) 42%,
+    oklch(0.28 0.035 265 / 0.36) 100%
+  );
+  --overlay: oklch(0.208 0.042 265.755 / 0.58);
+}
+
+/* 3) stone —— shadcn/ui 官方 stone 色板（暖灰，配金属质感偏暖） */
+[data-ui-base="stone"] {
+  --bg-page: oklch(0.985 0.001 106.423);
+  --bg: oklch(1 0 0);
+  --surface: oklch(1 0 0);
+  --surface-alt: oklch(0.97 0.001 106.424);
+  --surface-sunken: oklch(0.953 0.002 106.42);
+  --track: oklch(0.923 0.003 48.717);
+
+  --text: oklch(0.216 0.006 56.043);
+  --text-muted: oklch(0.553 0.013 58.071);
+  --text-light: oklch(0.665 0.012 58);
+  --text-invert: oklch(0.99 0.002 106);
+  --text-invert-muted: oklch(0.88 0.006 80);
+
+  --border: oklch(0.923 0.003 48.717);
+  --border-strong: oklch(0.869 0.005 56.366);
+  --border-invert: oklch(0.99 0.002 106 / 0.24);
+
+  --brand: oklch(0.216 0.006 56.043);
+  --brand-strong: oklch(0.16 0.005 56);
+  --brand-hover: oklch(0.29 0.008 56);
+  --brand-soft: oklch(0.955 0.004 60);
+  --brand-tint: oklch(0.976 0.002 90);
+  --accent: oklch(0.553 0.013 58.071);
+  --accent-strong: oklch(0.45 0.014 58);
+
+  --scrim: linear-gradient(
+    100deg,
+    oklch(0.16 0.006 56 / 0.93) 0%,
+    oklch(0.22 0.006 56 / 0.78) 42%,
+    oklch(0.29 0.006 56 / 0.36) 100%
+  );
+  --overlay: oklch(0.216 0.006 56.043 / 0.58);
+}
+
+/* 4) navy —— 更深的钢蓝，接近封面主色的暗压版，适合想要更强对比的场合 */
+[data-ui-base="navy"] {
+  --bg-page: oklch(0.975 0.004 252);
+  --bg: oklch(1 0 0);
+  --surface: oklch(1 0 0);
+  --surface-alt: oklch(0.958 0.008 252);
+  --surface-sunken: oklch(0.938 0.012 252);
+  --track: oklch(0.91 0.012 252);
+
+  --text: oklch(0.18 0.028 253);
+  --text-muted: oklch(0.47 0.03 253);
+  --text-light: oklch(0.60 0.025 253);
+  --text-invert: oklch(0.99 0.004 250);
+  --text-invert-muted: oklch(0.85 0.02 250);
+
+  --border: oklch(0.90 0.012 252);
+  --border-strong: oklch(0.83 0.02 252);
+  --border-invert: oklch(0.99 0.004 250 / 0.26);
+
+  /* 比默认更深：主色压到 oklch(0.30) 一档 */
+  --brand: oklch(0.315 0.062 253);
+  --brand-strong: oklch(0.245 0.05 252);
+  --brand-hover: oklch(0.385 0.075 253);
+  --brand-soft: oklch(0.945 0.018 250);
+  --brand-tint: oklch(0.968 0.010 250);
+  --accent: oklch(0.615 0.115 247);
+  --accent-strong: oklch(0.52 0.125 247);
+
+  --scrim: linear-gradient(
+    100deg,
+    oklch(0.16 0.04 252 / 0.94) 0%,
+    oklch(0.24 0.05 252 / 0.80) 42%,
+    oklch(0.33 0.045 250 / 0.36) 100%
+  );
+  --overlay: oklch(0.18 0.03 253 / 0.60);
+}
+
+/* ==========================================================================
+ * 二、风格轴：圆角 / 密度 / 阴影
+ *    只改形状与疏密，不改颜色 —— 这是「正交」的关键，也是断言要验的。
+ * ========================================================================== */
+
+/* 1) sharp（默认）：工业锐利，小圆角 + 紧凑密度 —— 见 tokens.css :root */
+
+/* 2) soft：柔和一些的圆角，密度不变 */
+[data-ui-style="soft"] {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-card: 16px;
+
+  --shadow-card: 0 2px 4px oklch(0.21 0.02 255 / 0.05),
+                 0 4px 12px oklch(0.21 0.02 255 / 0.06);
+  --shadow-raised: 0 4px 8px oklch(0.21 0.02 255 / 0.06),
+                   0 12px 28px oklch(0.21 0.02 255 / 0.10);
+  --shadow-overlay: 0 18px 48px oklch(0.21 0.02 255 / 0.16);
+}
+
+/* 3) airy：宽松密度 —— 留白更大、卡片内边距更大，字号略放 */
+[data-ui-style="airy"] {
+  --pad-section: calc(var(--space-3xl) + var(--space-lg));
+  --pad-card: var(--space-lg);
+  --pad-inline: var(--space-lg);
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-card: 12px;
+
+  --lh-body: 1.85;
+  --shadow-card: 0 1px 3px oklch(0.21 0.02 255 / 0.04),
+                 0 2px 8px oklch(0.21 0.02 255 / 0.05);
+  --shadow-raised: 0 3px 6px oklch(0.21 0.02 255 / 0.05),
+                   0 10px 24px oklch(0.21 0.02 255 / 0.09);
+  --shadow-overlay: 0 16px 40px oklch(0.21 0.02 255 / 0.15);
+}
+
+/* ==========================================================================
+ * 三、动效轴：时长与曲线
+ *    只改节奏，不改颜色与形状。值取自 transitions.dev 站点实际使用的配方。
+ * ========================================================================== */
+
+/* 1) standard（默认）：transitions.dev 的 --duration-* 原值 —— 见 tokens.css */
+
+/* 2) brisk：更快，偏「工具感」 */
+[data-ui-motion="brisk"] {
+  --dur-instant: 50ms;
+  --dur-quick: 100ms;
+  --dur-fast: 150ms;
+  --dur-med: 220ms;
+  --dur-slow: 300ms;
+  --dur-reveal: 380ms;
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3) gentle：更慢更缓，偏「讲解感」，配 reveal 动效 */
+[data-ui-motion="gentle"] {
+  --dur-instant: 120ms;
+  --dur-quick: 220ms;
+  --dur-fast: 350ms;
+  --dur-med: 480ms;
+  --dur-slow: 700ms;
+  --dur-reveal: 900ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 4) kinetic：动感档。
+   为什么它除了改时长还**新增了一组入场令牌**：
+   「动感」不是把时长调快就够的 —— 标题逐字入场、卡片错落延迟、
+   大图缓慢推近，这些动作需要**新的、可换的值**（位移量、缩放比、错峰间隔）。
+   按规范"有主题语义的值都要提成令牌"，这些值同样给成全量令牌，
+   供 styles.css 引用；切回其它动效档时它们落到 tokens.css 的默认（即"关"）。
+   用法：在皮肤开关里选「动感」。默认关 —— 第一眼看到的仍是稳的。 */
+[data-ui-motion="kinetic"] {
+  --dur-instant: 90ms;
+  --dur-quick: 200ms;
+  --dur-fast: 320ms;
+  --dur-med: 520ms;
+  --dur-slow: 900ms;
+  --dur-reveal: 720ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* 入场动作的可换值（tokens.css 里默认全部"关"） */
+  --enter-tx: 0;                       /* 入场水平位移 */
+  --enter-ty: 26px;                    /* 入场竖直位移：从下方升起 */
+  --enter-scale: 0.985;                /* 入场缩放起点（略小，放大归位） */
+  --enter-blur: 6px;                   /* 入场时轻微模糊，随入场收敛 */
+  --enter-stagger: 70ms;               /* 同组元素错峰间隔 */
+  --hero-zoom-from: 1.12;              /* 首屏大图推近起点 */
+  --hero-zoom-dur: 1600ms;             /* 推近时长 */
+  --hero-parallax: 1;                  /* 滚动视差开关（0=关） */
+  --marquee-dur: 34s;                  /* 横滚条一圈时长 */
+}
+
+/* ==========================================================================
+ * 四、底座轴追加：三套"酷炫"皮肤
+ * ========================================================================== */
+
+/* 说明：原先这里还有三套"皮肤级样式"（neon 辉光 / aurora 玻璃 / studio 大字）。
+   它们已随三套皮肤一并移除 —— 那三套是"同一版面换色"，
+   与需求方要的"三套独立设计"不是一回事，已由 designs/*.css 取代。
+   现底座轴只剩四套配色（steel/slate/stone/navy），它们只改令牌、不需要专属样式。 */
+
+/* reduced-motion 兜底必须排在最后：
+   动效轴的块在上面把时长调长了，若用户又声明了减少动效，
+   声明优先级（同权重、后者胜）保证这里的 1ms 生效。 */
+@media (prefers-reduced-motion: reduce) {
+  [data-ui-motion] {
+    --dur-instant: 1ms;
+    --dur-quick: 1ms;
+    --dur-fast: 1ms;
+    --dur-med: 1ms;
+    --dur-slow: 1ms;
+    --dur-reveal: 1ms;
+  }
+}

@@ -1,0 +1,380 @@
+/* ============================================================================
+ * 设计 A · 材料手册 —— 样式
+ *
+ * 视觉语言：技术规格书。深钢灰 + 安全橙点缀，0 圆角，1px 发丝线，
+ * 等宽数字，表格式排版。刻意不用圆角卡片与阴影（那是"网页感"，
+ * 而本设计要的是"文档感"）。
+ *
+ * 本文件自带令牌（变量名与另几套统一，见《四套设计接口约定.md》），
+ * 不与稳妥版共用 themes.css —— 独立设计不共享皮肤层。
+ * ========================================================================== */
+
+:root {
+  /* 配色：深钢灰（近黑，但不是纯黑）+ 安全橙作强调（工业标识色） */
+  --bg: #ffffff;
+  --bg-page: #f4f5f6;
+  --surface: #ffffff;
+  --surface-alt: #f0f2f4;
+  --text: #1b1f24;
+  --text-muted: #5b636d;
+  --border: #d9dde2;
+  --border-strong: #b4bbc4;
+  --brand: #1b1f24;
+  --brand-soft: #eceff2;
+  --accent: #c2410c;             /* 安全橙（深一档，保证白底上可读） */
+  /* 深色底上用的强调色：--accent 在深底上只有约 3.2:1，不够 4.5:1。
+     独立复核逐元素算对比度时抓到这条（.h2__no 章节号 3.20:1）。
+     深底要的是"同一族但更亮"的橙，故单独给一个令牌，
+     而不是把 --accent 整体调亮（那样白底上又不达标）。 */
+  --accent-on-dark: #f0a06a;
+  --accent-soft: #fff1e9;
+  --text-on-brand: #ffffff;
+
+  --radius: 0;
+  --radius-sm: 0;
+
+  --space-sm: 10px;
+  --space-md: 18px;
+  --space-lg: 32px;
+  --space-xl: 56px;
+
+  --fs-hero: clamp(1.9rem, 4vw, 3.1rem);
+  --fs-h2: clamp(1.25rem, 2vw, 1.6rem);
+  --fs-h3: 1.02rem;
+  --fs-body: 0.95rem;
+  --fs-sm: 0.87rem;
+  --fs-xs: 0.79rem;
+
+  --mono: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  line-height: 1.72;
+  color: var(--text);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3 { margin: 0; line-height: 1.25; font-weight: 700; }
+p { margin: 0; }
+ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
+
+/* 键盘可达性 */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 22px; }
+
+/* ---------------------------------------------------------------- 顶栏 */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar[data-scrolled="1"] { border-bottom-color: var(--border-strong); }
+
+.topbar__in {
+  display: flex; align-items: center; gap: var(--space-md);
+  min-height: 62px;
+}
+.mark { display: flex; align-items: center; gap: 10px; color: inherit; }
+.mark:hover { text-decoration: none; }
+.mark__box {
+  width: 32px; height: 32px; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: var(--brand); color: var(--text-on-brand);
+  font-weight: 700; font-size: 0.95rem;
+}
+.mark__txt { display: flex; flex-direction: column; line-height: 1.2; }
+.mark__txt b { font-size: 0.95rem; }
+.mark__txt i {
+  font-style: normal; font-size: 0.62rem; letter-spacing: 0.06em;
+  color: var(--text-muted); text-transform: uppercase;
+}
+
+.nav { margin-left: auto; display: flex; gap: 22px; }
+.nav a { color: var(--text-muted); font-size: var(--fs-sm); }
+.nav a:hover { color: var(--text); }
+
+.burger {
+  display: none; margin-left: auto;
+  width: 40px; height: 40px; place-items: center;
+  border: 1px solid var(--border-strong); background: transparent;
+  color: var(--text); cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- 按钮 */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font: inherit; font-size: var(--fs-sm); font-weight: 600;
+  padding: 9px 16px; border: 1px solid transparent;
+  cursor: pointer; transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.btn--line { background: transparent; color: var(--brand); border-color: var(--border-strong); }
+.btn--line:hover { background: var(--brand); color: var(--text-on-brand); border-color: var(--brand); text-decoration: none; }
+
+/* ---------------------------------------------------------------- 首屏 */
+.masthead { background: var(--bg); border-bottom: 1px solid var(--border); }
+.masthead__grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: var(--space-xl); padding: 56px 22px 60px; align-items: start;
+}
+
+.kicker {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.masthead h1 { font-size: var(--fs-hero); letter-spacing: -0.015em; }
+.lede { margin-top: 16px; color: var(--text-muted); max-width: 44ch; }
+
+.keynums {
+  margin-top: 28px; display: grid; gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border); padding-top: 18px;
+}
+.keynums dt { font-size: var(--fs-xs); color: var(--text-muted); }
+.keynums dd {
+  font-family: var(--mono); font-size: 1.35rem; font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.keynums dd small { font-size: 0.6em; font-weight: 600; margin-left: 3px; color: var(--text-muted); }
+
+/* 规格表：本设计的核心元素 */
+.spec { width: 100%; border-collapse: collapse; background: var(--surface); }
+.spec__h {
+  font-size: var(--fs-h3); padding-bottom: 12px;
+  border-bottom: 2px solid var(--brand);
+}
+.spec th, .spec td {
+  text-align: left; padding: 11px 12px;
+  border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.spec thead th {
+  font-size: var(--fs-xs); letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.spec tbody th { font-weight: 600; white-space: nowrap; }
+.spec__grades { display: flex; flex-wrap: wrap; gap: 5px; }
+.grade {
+  font-family: var(--mono); font-size: var(--fs-sm);
+  background: var(--brand-soft); color: var(--brand);
+  padding: 2px 7px; white-space: nowrap;
+}
+.spec__note { color: var(--text-muted); font-size: var(--fs-sm); }
+.spec__foot {
+  margin-top: 10px; font-size: var(--fs-xs); color: var(--text-muted);
+  border-left: 3px solid var(--accent); padding-left: 10px;
+}
+.spec--wide tbody th { width: 30%; }
+.spec--wide tbody td { color: var(--text-muted); font-size: var(--fs-sm); }
+
+/* ---------------------------------------------------------------- 区块 */
+.band { padding: var(--space-xl) 0; background: var(--bg); border-bottom: 1px solid var(--border); }
+.band--alt { background: var(--bg-page); }
+.band--dark { background: var(--brand); color: var(--text-on-brand); border-bottom: none; }
+.band--dark .h2__no { color: var(--accent-on-dark); }
+.band--dark a { color: var(--text-on-brand); text-decoration: underline; }
+
+.h2 {
+  font-size: var(--fs-h2); display: flex; align-items: baseline; gap: 12px;
+  padding-bottom: 12px; border-bottom: 2px solid var(--brand);
+  margin-bottom: var(--space-lg);
+}
+.band--dark .h2 { border-bottom-color: rgba(255, 255, 255, 0.28); }
+.h2__no {
+  font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.06em;
+}
+.h3 {
+  font-size: var(--fs-h3); margin: var(--space-lg) 0 var(--space-md);
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.h3:first-child { margin-top: 0; }
+
+.cols { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+.note { color: var(--text-muted); font-size: var(--fs-sm); margin-bottom: var(--space-md); }
+.note--onDark { color: rgba(255, 255, 255, 0.85); margin-top: var(--space-md); }
+
+/* 关于：定义列表 */
+.facts__row {
+  display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-md);
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+}
+.facts__row dt { font-weight: 600; font-size: var(--fs-sm); }
+.facts__row dd { color: var(--text-muted); font-size: var(--fs-sm); }
+
+.advs { display: grid; gap: 0; }
+.adv {
+  display: flex; gap: 14px; padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.adv__n {
+  font-family: var(--mono); font-size: var(--fs-sm); font-weight: 700;
+  color: var(--accent); flex: 0 0 26px;
+}
+.adv__t { font-size: var(--fs-body); }
+.adv__d { color: var(--text-muted); font-size: var(--fs-sm); margin-top: 2px; }
+
+/* 设备清单：编号列表 */
+.lines { display: grid; gap: 0; }
+.line {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr);
+  gap: var(--space-md); padding: var(--space-md) 0;
+  border-top: 1px solid var(--border);
+}
+.line__no {
+  font-family: var(--mono); font-size: 1.3rem; font-weight: 700;
+  color: var(--border-strong); line-height: 1.2;
+}
+.line__title { font-size: var(--fs-h3); }
+.line__items {
+  margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 18px;
+}
+.line__items li {
+  font-size: var(--fs-sm); color: var(--text-muted);
+  padding-left: 12px; position: relative;
+}
+.line__items li::before {
+  content: ''; position: absolute; left: 0; top: 0.72em;
+  width: 5px; height: 1px; background: var(--accent);
+}
+
+/* 设备实拍 */
+.shots { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.shot { margin: 0; background: var(--surface); border: 1px solid var(--border); }
+.shot img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+.shot figcaption {
+  padding: 8px 10px; font-size: var(--fs-xs); color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+/* 资质 */
+.certs { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.cert {
+  display: block; width: 100%; padding: 0; text-align: left;
+  background: var(--surface); border: 1px solid var(--border);
+  font: inherit; cursor: zoom-in;
+}
+.cert:hover { border-color: var(--border-strong); }
+.cert img { aspect-ratio: 4 / 3; object-fit: contain; width: 100%; background: var(--surface-alt); }
+.cert__cap { display: block; padding: 8px 10px; font-size: var(--fs-xs); color: var(--text-muted); border-top: 1px solid var(--border); }
+
+/* logo 墙 */
+.logos {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.logo {
+  margin: 0; padding: 12px 8px; background: #fff;
+  border: 1px solid var(--border); text-align: center;
+}
+.logo img { height: 34px; width: auto; margin: 0 auto; object-fit: contain; }
+.logo figcaption { margin-top: 7px; font-size: 0.7rem; color: #4a5665; word-break: keep-all; }
+
+/* 文化 */
+.culture { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.culture__b { border-left: 3px solid var(--accent); padding-left: var(--space-md); }
+.culture__b h3 { font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.culture__b p { margin-top: 8px; font-size: 1.02rem; font-weight: 600; }
+.values { margin-top: var(--space-lg); display: grid; gap: 0; }
+.values li { display: flex; gap: var(--space-md); padding: 10px 0; border-bottom: 1px solid var(--border); }
+.values b { flex: 0 0 76px; font-size: var(--fs-sm); }
+.values span { color: var(--text-muted); font-size: var(--fs-sm); }
+
+/* 流程 */
+.steps { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.step { padding: var(--space-md) var(--space-md) var(--space-md) 0; border-top: 2px solid var(--brand); }
+.step__no { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; color: var(--accent); }
+.step__t { font-size: var(--fs-h3); margin-top: 6px; }
+.step__d { color: var(--text-muted); font-size: var(--fs-sm); margin-top: 3px; }
+
+/* 分布 */
+.regions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space-md); }
+.regions li {
+  font-size: var(--fs-sm); padding: 6px 13px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+}
+.map { margin: 0; border: 1px solid var(--border); background: var(--surface); }
+.map img { width: 100%; }
+.map figcaption { padding: 9px 12px; font-size: var(--fs-xs); color: var(--text-muted); border-top: 1px solid var(--border); }
+
+/* 联系 */
+.contact { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.contact dt { font-size: var(--fs-xs); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.75; }
+.contact dd { margin-top: 5px; font-size: 1rem; font-weight: 600; word-break: break-all; }
+
+/* 页脚 */
+.foot { background: var(--brand); color: rgba(255, 255, 255, 0.72); padding: var(--space-md) 0; font-size: var(--fs-xs); }
+.foot__in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+
+/* 图片放大 */
+.lb { border: none; padding: 0; background: transparent; max-width: min(94vw, 1080px); }
+.lb::backdrop { background: rgba(17, 20, 24, 0.72); }
+.lb img { width: 100%; max-height: 82vh; object-fit: contain; background: #fff; }
+.lb__bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 8px; color: #fff; font-size: var(--fs-sm); }
+
+/* 滚动入场：本设计的动效极克制 —— 只做透明度，不做位移，
+   因为"规格书"的观感应当稳定、不跳。 */
+.js-ready [data-reveal] { opacity: 0; }
+.js-ready [data-reveal][data-revealed="1"] {
+  opacity: 1; transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-ready [data-reveal] { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------- 响应式 */
+@media (max-width: 900px) {
+  .masthead__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); padding: 34px 22px 40px; }
+  .nav {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; gap: 0; margin: 0;
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 6px 22px 14px;
+    max-height: 0; overflow: hidden; opacity: 0; visibility: hidden;
+    transition: max-height .25s ease, opacity .2s ease, visibility 0s linear .25s;
+  }
+  header[data-nav="open"] .nav {
+    max-height: 70vh; overflow-y: auto; opacity: 1; visibility: visible; transition-delay: 0s;
+  }
+  .nav a { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: var(--fs-body); }
+  .nav a:last-child { border-bottom: none; }
+  .burger { display: grid; }
+  .topbar__in > .btn { display: none; }
+  .btn { min-height: 42px; }
+}
+
+@media (max-width: 620px) {
+  .facts__row { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+  .line { grid-template-columns: 34px minmax(0, 1fr); }
+  .keynums { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .spec__note { display: none; }   /* 窄屏优先保牌号，说明折进"来电索取" */
+  .spec thead th:nth-child(3) { display: none; }
+  .spec tbody td:nth-child(3) { display: none; }
+  .spec--wide tbody th { width: auto; }
+}
+
+@media print {
+  .topbar, .burger, .lb { display: none; }
+  body { background: #fff; }
+  .band { break-inside: avoid; }
+  .js-ready [data-reveal] { opacity: 1; }
+}

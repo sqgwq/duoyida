@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>无锡多易达科技有限公司 · 不锈钢与双相钢一站式供应</title>
+<meta name="description" content="不锈钢与双相钢材料批发、加工定制与管道系统服务。304/316L、2205/2507、254SMO/904L、ALLOY 20、INCONEL 625、HASTELLOY C-276。">
+<meta name="theme-color" content="#0d1013">
+<link rel="icon" href="../favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<!-- 设计标识：给断言与调试用，标明这是哪一套设计 -->
+<meta name="design-id" content="cinema">
+<link rel="stylesheet" href="../designs/cinema.css">
+</head>
+<body class="design-cinema">
+
+<header class="bar" data-nav="closed" data-scrolled="0">
+  <a class="bar__logo" href="#home" aria-label="无锡多易达科技有限公司 首页">
+    <span class="bar__cn">无锡多易达科技有限公司</span>
+    <span class="bar__en">Wuxi Duoyida Metal Technology Co.,Ltd.</span>
+  </a>
+  <nav class="bar__nav" aria-label="主导航">
+    <a href="#home">首页</a>
+    <a href="#about">关于我们</a>
+    <a href="#products">产品与材料</a>
+    <a href="#capability">加工与仓储</a>
+    <a href="#cases">资质与案例</a>
+    <a href="#contact">联系我们</a>
+  </nav>
+  <button class="bar__burger" type="button" data-nav-toggle aria-expanded="false" aria-label="展开菜单">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</header>
+
+<main>
+  <!-- 开场：满屏品牌 -->
+  <section class="open" id="home">
+    <div class="open__bg">
+      <img src="../assets/img/equipment/07_03.jpeg" alt="车间内正在进行筒体环缝焊接作业"
+           fetchpriority="high" decoding="async">
+    </div>
+    <div class="open__veil" aria-hidden="true"></div>
+    <div class="open__in">
+      <p class="open__kick">Stainless &amp; Duplex Steel · Since 2017</p>
+      <h1 class="open__h">不锈钢与双相钢<br>材料批发与加工定制</h1>
+      <p class="open__sub">
+        304 / 316L · 2205 / 2507 · 254SMO / 904L · ALLOY 20 · INCONEL 625 · HASTELLOY C-276
+      </p>
+      <a class="open__cta" href="#products">看能供什么料<span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+
+  <!-- 数字卷轴：一屏一个数字 -->
+  <div class="reels" aria-hidden="false">
+
+  <section class="reel" id="r0" data-reveal>
+    <div class="reel__bg">
+      <!-- 卷轴各节都在首屏之下，故**一律懒加载**。
+           首屏那张（.open__bg）才是需要高优先级的。
+           这一点踩过：原先把第 0 节设成 fetchpriority=high，
+           但它其实在满屏开场之下，属非首屏，被断言 5.4 抓到。 -->
+      <img src="../assets/img/equipment/07_02.jpeg" alt="车间内大型卷板设备在卷制钢板" loading="lazy" decoding="async">
+    </div>
+    <div class="reel__veil" aria-hidden="true"></div>
+    <div class="reel__in">
+      <div class="reel__n"><span class="reel__num">2017</span><span class="reel__unit">年</span></div>
+      <p class="reel__label">成立</p>
+    </div>
+  </section>
+  <section class="reel" id="r1" data-reveal>
+    <div class="reel__bg">
+      <!-- 卷轴各节都在首屏之下，故**一律懒加载**。
+           首屏那张（.open__bg）才是需要高优先级的。
+           这一点踩过：原先把第 0 节设成 fetchpriority=high，
+           但它其实在满屏开场之下，属非首屏，被断言 5.4 抓到。 -->
+      <img src="../assets/img/storage/08_02.jpeg" alt="仓库内的钢板与悬臂吊作业" loading="lazy" decoding="async">
+    </div>
+    <div class="reel__veil" aria-hidden="true"></div>
+    <div class="reel__in">
+      <div class="reel__n"><span class="reel__num">1000</span><span class="reel__unit">万元</span></div>
+      <p class="reel__label">注册资本</p>
+    </div>
+  </section>
+  <section class="reel" id="r2" data-reveal>
+    <div class="reel__bg">
+      <!-- 卷轴各节都在首屏之下，故**一律懒加载**。
+           首屏那张（.open__bg）才是需要高优先级的。
+           这一点踩过：原先把第 0 节设成 fetchpriority=high，
+           但它其实在满屏开场之下，属非首屏，被断言 5.4 抓到。 -->
+      <img src="../assets/img/storage/08_03.jpeg" alt="打包钢板垛与钢卷" loading="lazy" decoding="async">
+    </div>
+    <div class="reel__veil" aria-hidden="true"></div>
+    <div class="reel__in">
+      <div class="reel__n"><span class="reel__num">30000</span><span class="reel__unit">㎡</span></div>
+      <p class="reel__label">仓储中心</p>
+    </div>
+  </section>
+  <section class="reel" id="r3" data-reveal>
+    <div class="reel__bg">
+      <!-- 卷轴各节都在首屏之下，故**一律懒加载**。
+           首屏那张（.open__bg）才是需要高优先级的。
+           这一点踩过：原先把第 0 节设成 fetchpriority=high，
+           但它其实在满屏开场之下，属非首屏，被断言 5.4 抓到。 -->
+      <img src="../assets/img/equipment/07_03.jpeg" alt="筒体环缝焊接作业" loading="lazy" decoding="async">
+    </div>
+    <div class="reel__veil" aria-hidden="true"></div>
+    <div class="reel__in">
+      <div class="reel__n"><span class="reel__num">5000</span><span class="reel__unit">吨</span></div>
+      <p class="reel__label">现货规格材料</p>
+    </div>
+  </section>
+  <section class="reel" id="r4" data-reveal>
+    <div class="reel__bg">
+      <!-- 卷轴各节都在首屏之下，故**一律懒加载**。
+           首屏那张（.open__bg）才是需要高优先级的。
+           这一点踩过：原先把第 0 节设成 fetchpriority=high，
+           但它其实在满屏开场之下，属非首屏，被断言 5.4 抓到。 -->
+      <img src="../assets/img/product/12_06.jpeg" alt="不锈钢管件成品" loading="lazy" decoding="async">
+    </div>
+    <div class="reel__veil" aria-hidden="true"></div>
+    <div class="reel__in">
+      <div class="reel__n"><span class="reel__num">2000</span><span class="reel__unit">家+</span></div>
+      <p class="reel__label">年服务客户</p>
+    </div>
+  </section>
+  </div>
+
+
+
+
+  <!-- 加工能力 -->
+  <section class="block block--dark" id="capability">
+    <div class="wrap">
+      <p class="kick">Capability</p>
+      <h2 class="big">加工与仓储</h2>
+      <div class="caps">
+
+      <div class="cap">
+        <h3>开平与剪切</h3>
+        <p>不锈钢开平生产线 · 不锈钢横剪线 · 不锈钢纵剪线 · 大型不锈钢冷热轧开平机 · 分条机</p>
+      </div>
+      <div class="cap">
+        <h3>切割</h3>
+        <p>激光切割机 · 水刀切割机 · 等离子切割机</p>
+      </div>
+      <div class="cap">
+        <h3>成型加工</h3>
+        <p>大型数控折弯机 · 剪板机 · 冲花机 · 压花机</p>
+      </div>
+      <div class="cap">
+        <h3>表面处理</h3>
+        <p>平板抛光机 · 8K 镜面研磨机 · 干磨拉丝机</p>
+      </div>
+      </div>
+      <p class="bigp">30000 平米仓储中心、5000 吨现货规格材料；
+        仓储中心提供 24 小时服务，并可代理货物配送。</p>
+    </div>
+  </section>
+
+  <!-- 资质与合作 -->
+  <section class="block" id="cases">
+    <div class="wrap">
+      <p class="kick">Qualification</p>
+      <h2 class="big">资质与合作伙伴</h2>
+      <p class="muted">每批货物均提供单独的质检报告和材质证明。</p>
+      <div class="certs">
+        <button class="cert" type="button" data-zoom="../assets/img/cert/06_01.jpeg"
+                data-zoom-alt="营业执照（副本）" data-zoom-cap="营业执照（副本）">
+          <img src="../assets/img/cert/06_01.jpeg" alt="营业执照（副本）" loading="lazy" decoding="async">
+          <span>营业执照（副本）</span>
+        </button>
+        <button class="cert" type="button" data-zoom="../assets/img/cert/06_03.jpeg"
+                data-zoom-alt="实用新型专利证书（六件）" data-zoom-cap="实用新型专利证书（六件）">
+          <img src="../assets/img/cert/06_03.jpeg" alt="实用新型专利证书（六件）" loading="lazy" decoding="async">
+          <span>实用新型专利证书（六件）</span>
+        </button>
+      </div>
+      <h3 class="k3">合作钢厂与供应商</h3>
+      <p class="muted">以下为宣传册「公司合作伙伴」页收录的钢厂 / 供应商标识，
+        按宣传册口径如实展示，不代表承诺供货关系与价格。</p>
+      <div class="logos">
+        <img src="../assets/img/partner/05_01.jpeg" alt="thyssenkrupp 蒂森克虏伯" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_02.jpeg" alt="TISCO 太原钢铁（集团）" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_03.jpeg" alt="zpss" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_04.jpeg" alt="JISCO 酒钢集团" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_05.jpeg" alt="永兴材料" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_06.jpeg" alt="NSSC 日本新日铁住金" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_07.jpeg" alt="青山控股" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_08.jpeg" alt="东方特钢" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_09.jpeg" alt="Columbus Stainless" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_10.jpeg" alt="BAOSTEEL 宝钢集团" loading="lazy" decoding="async">
+        <img src="../assets/img/partner/05_11.jpeg" alt="Outokumpu 奥托昆普" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- 材料墙 -->
+  <section class="block" id="products">
+    <div class="wrap">
+      <p class="kick">Materials</p>
+      <h2 class="big">能供什么料</h2>
+      <div class="mats">
+
+      <div class="mat">
+        <h3 class="mat__f">不锈钢</h3>
+        <p class="mat__g"><span>304</span><span>316L</span></p>
+      </div>
+      <div class="mat">
+        <h3 class="mat__f">双相不锈钢系列</h3>
+        <p class="mat__g"><span>2205</span><span>2507</span></p>
+      </div>
+      <div class="mat">
+        <h3 class="mat__f">超级不锈钢系列</h3>
+        <p class="mat__g"><span>254SMO</span><span>904L</span></p>
+      </div>
+      <div class="mat">
+        <h3 class="mat__f">耐热不锈钢</h3>
+        <p class="mat__g"><span>310S</span></p>
+      </div>
+      <div class="mat">
+        <h3 class="mat__f">高耐腐蚀合金钢</h3>
+        <p class="mat__g"><span>ALLOY 20</span><span>ALLOY 28</span><span>1.4529</span><span>INCOLOY 825</span><span>INCONEL 625</span><span>HASTELLOY C-22</span><span>C-276</span></p>
+      </div>
+      </div>
+      <p class="foot-note">上表仅列宣传册写明的系列与牌号；力学性能与化学成分请来电索取材质证明。</p>
+      <div class="strip">
+        <img src="../assets/img/product/09_02.jpeg" alt="成垛码放的不锈钢圆管" loading="lazy" decoding="async">
+        <img src="../assets/img/product/09_04.jpeg" alt="成排摆放的不锈钢长管" loading="lazy" decoding="async">
+        <img src="../assets/img/product/13_05.jpeg" alt="对焊法兰（带凸台）" loading="lazy" decoding="async">
+        <img src="../assets/img/product/13_04.jpeg" alt="带颈法兰" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section class="block block--dark" id="about">
+    <div class="wrap">
+      <p class="kick">About</p>
+      <h2 class="big">关于我们</h2>
+      <p class="bigp">成立于 2017 年，注册资本 1000 万元，坐落于江苏省无锡市。是一家集双相钢材料批发与加工定制，以及不锈钢管道系统研发、销售、服务于一体的综合方案解决商。</p>
+      <div class="duo">
+        <div>
+          <h3 class="k3">主营产品</h3>
+          <p class="muted">不锈钢钢板，不锈钢圆管、盘管，不锈钢圆钢，不锈钢法兰，不锈钢弯头管件；并可根据客户图纸订制加工。</p>
+        </div>
+        <div>
+          <h3 class="k3">应用领域</h3>
+          <p class="muted">船舶洗涤塔设备、路基脱硫塔、压力器皿、高压储藏罐、高压管道、热交换器、石油天然气管道、热交换器管件、污水处理系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文化 -->
+  <section class="block block--dark" id="culture">
+    <div class="wrap">
+      <p class="kick">Culture</p>
+      <h2 class="big">我们怎么做</h2>
+      <div class="duo">
+        <div>
+          <h3 class="k3">企业使命</h3>
+          <p class="bigp">追求全体员工物质和精神双幸福，用匠心产品为中国智能制造引领世界作出贡献</p>
+        </div>
+        <div>
+          <h3 class="k3">企业愿景</h3>
+          <p class="bigp">提供超越客户期望的不锈钢一站式解决方案，成为受人尊敬的百年千亿幸福企业</p>
+        </div>
+      </div>
+      <div class="vals">
+        <div><b>激情</b><span>激情挑战高目标，成就卓越人生</span></div>
+        <div><b>精进</b><span>每天进步一点点，To Be No.1</span></div>
+        <div><b>感恩</b><span>感恩才会拥有，珍惜才能长久</span></div>
+        <div><b>创新</b><span>创新改变生活，缔造核心竞争力</span></div>
+        <div><b>核心文化</b><span>合力共赢</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 流程 -->
+  <section class="block" id="process">
+    <div class="wrap">
+      <p class="kick">Process</p>
+      <h2 class="big">合作流程</h2>
+      <ol class="flow">
+        <li><span class="flow__n">01</span>
+          <b>对接需求</b><span class="flow__d">了解你们的工况与用材场景</span></li>
+        <li><span class="flow__n">02</span>
+          <b>项目判断与需求分析</b><span class="flow__d">确认材质、规格与用量</span></li>
+        <li><span class="flow__n">03</span>
+          <b>洽谈方案 · 合同报价确认</b><span class="flow__d">出具方案与报价</span></li>
+        <li><span class="flow__n">04</span>
+          <b>签订合作合同</b><span class="flow__d">明确交期与验收标准</span></li>
+        <li><span class="flow__n">05</span>
+          <b>合作方案实施</b><span class="flow__d">备料、加工、质检、发运</span></li>
+        <li><span class="flow__n">06</span>
+          <b>客户满意</b><span class="flow__d">交付后持续跟进服务</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 分布 -->
+  <section class="block block--dark" id="regions">
+    <div class="wrap">
+      <p class="kick">Distribution</p>
+      <h2 class="big">业务分布</h2>
+      <p class="muted">宣传册标注的出口目的地（含转口贸易，非最终用户所在地）。</p>
+      <div class="regions">
+        <span>美国</span>
+        <span>巴西</span>
+        <span>苏丹</span>
+        <span>澳大利亚</span>
+        <span>俄罗斯</span>
+      </div>
+      <img class="map" src="../assets/img/map/16_01.jpeg" alt="公司业务分布图（标注美国、巴西、苏丹、澳大利亚、俄罗斯）"
+           loading="lazy" decoding="async">
+      <p class="foot-note">图片取自公司宣传册第 16 页；原图另有三处蓝色标注框为空白（宣传册未填文字），照原样呈现。</p>
+    </div>
+  </section>
+
+  <!-- 联系 -->
+  <section class="block close" id="contact">
+    <div class="wrap">
+      <p class="kick">Contact</p>
+      <h2 class="big">联系我们</h2>
+      <p class="bigp">询价、要样、按图订制，欢迎直接联系。</p>
+      <div class="contact">
+        <div><b>公司地址</b><span>无锡市新吴区新洲路210号</span></div>
+        <div><b>联系电话</b><a href="tel:15995253756">15995253756</a><a href="tel:18021163756">18021163756</a></div>
+        <div><b>邮箱</b><a href="mailto:KEVIN@DUOEDA.COM">KEVIN@DUOEDA.COM</a></div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+</main>
+
+<footer class="foot">
+  <span>© <span data-year>2026</span> 无锡多易达科技有限公司</span>
+  <span>Wuxi Duoyida Metal Technology Co.,Ltd.</span>
+</footer>
+
+<dialog class="lb" id="lightbox">
+  <img data-lightbox-img src="" alt="">
+  <div class="lb__bar">
+    <span data-lightbox-cap></span>
+    <button class="lb__x" type="button" data-close aria-label="关闭">关闭</button>
+  </div>
+</dialog>
+
+<!-- 数据：四套设计共用同一份内容与事实 -->
+<script src="../assets/data/facts.js"></script>
+<script src="../assets/js/content.js"></script>
+<script src="../assets/js/designs-common.js"></script>
+
+</body>
+</html>
