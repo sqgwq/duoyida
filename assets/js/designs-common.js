@@ -137,6 +137,138 @@
   }
 
   /* ---------------------------------------------------------- 其他 */
+  /* ---------------------------------------------------------- 数字滚动（taste-skill §5）
+     动机（skill 的铁律：说不出理由的动画一律不加）：
+     分屏沉浸的每一屏就是"一个数字"，数字从 0 滚到终值是在**讲故事**——
+     规模感是随着滚动逐屏建立的。这不是装饰。
+     规则：只对 [data-count] 生效；reduced-motion 下直接显示终值；
+     只滚一次；时长 900ms（够看清、不拖沓）。 */
+  function initCounters() {
+    var els = Array.prototype.slice.call(doc.querySelectorAll('[data-count]'));
+    if (!els.length) return;
+
+    function render(el, value, decimals) {
+      el.textContent = value.toFixed(decimals);
+    }
+
+    function run(el) {
+      var target = parseFloat(el.getAttribute('data-count'));
+      var decimals = (el.getAttribute('data-count-decimals') || '0') | 0;
+      if (reduced() || isNaN(target)) { render(el, target, decimals); return; }
+      var t0 = null;
+      var DUR = 900;
+      function tick(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / DUR);
+        // easeOutCubic：前快后慢，滚到终值时"稳稳落住"而不是戛然而止
+        var eased = 1 - Math.pow(1 - p, 3);
+        render(el, target * eased, decimals);
+        if (p < 1) window.requestAnimationFrame(tick);
+        else render(el, target, decimals);
+      }
+      window.requestAnimationFrame(tick);
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { run(el); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        run(en.target);
+      });
+    }, { threshold: 0.4 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------------------------------------------------------- 组内错峰（taste-skill）
+     给 [data-reveal-group] 的直接 [data-reveal] 子元素写递增延迟。
+     动机：整排内容同时弹出是"AI 味"（skill §0.D），
+     顺序错开 45ms 是在讲"逐项读过去"的顺序，属于 storytelling。 */
+  function initGroupStagger() {
+    Array.prototype.forEach.call(doc.querySelectorAll('[data-reveal-group]'), function (group) {
+      var kids = group.querySelectorAll('[data-reveal]');
+      Array.prototype.forEach.call(kids, function (el, i) {
+        if (!el.style.getPropertyValue('--reveal-delay')) {
+          el.style.setProperty('--reveal-delay', (i % 8) * 45 + 'ms');
+        }
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------- 观影进度条（[data-filmfill]）
+     动机=定位：满屏章节的长滚动里，需要"看到哪了"的位置感。
+     实现：滚动进度 → 填充条高度。rAF 节流；reduced-motion 下静态显示 100%。 */
+  function initFilmstrip() {
+    var fill = doc.querySelector('[data-filmfill]');
+    if (!fill) return;
+    if (reduced()) { fill.style.height = '100%'; return; }
+    var ticking = false;
+    function update() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        var max = doc.documentElement.scrollHeight - window.innerHeight;
+        var p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        fill.style.height = (p * 100).toFixed(2) + '%';
+      });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  /* ---------------------------------------------------------- 磁吸按钮（[data-magnetic]）
+     动机=反馈（taste-skill §5：MOTION>5 且品牌/机构向时用）。
+     指针在按钮内时按钮微微迎向指针（±6px 上限），离开后弹回。
+     reduced-motion 下完全不启用。 */
+  function initMagnetic() {
+    if (reduced()) return;
+    Array.prototype.forEach.call(doc.querySelectorAll('[data-magnetic]'), function (btn) {
+      var MAX = 6;
+      btn.addEventListener('mousemove', function (ev) {
+        var r = btn.getBoundingClientRect();
+        var dx = ((ev.clientX - r.left) / r.width - 0.5) * 2;    // -1..1
+        var dy = ((ev.clientY - r.top) / r.height - 0.5) * 2;
+        btn.style.setProperty('--mx', (dx * MAX).toFixed(1) + 'px');
+        btn.style.setProperty('--my', (dy * MAX).toFixed(1) + 'px');
+      });
+      btn.addEventListener('mouseleave', function () {
+        btn.style.setProperty('--mx', '0px');
+        btn.style.setProperty('--my', '0px');
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------- 章节角标（[data-folio]）
+     动机=定位：产品册是"一本能发出去的册子"，页面很长，
+     右下角的当前章节号给读者"翻到第几章"的位置感——呼应印刷刊号，
+     但不做假页码（那事在 editorial.js 里记过：滚动页没有"页"的概念）。
+     实现：观察各 .chap 的中线穿越，更新角标文案。纯文字替换，无动画。 */
+  function initFolio() {
+    var box = doc.querySelector('[data-folio]');
+    if (!box) return;
+    var nEl = doc.querySelector('[data-folio-n]');
+    var tEl = doc.querySelector('[data-folio-t]');
+    var chapters = Array.prototype.slice.call(doc.querySelectorAll('.chap[id]'));
+    if (!nEl || !tEl || !chapters.length || !('IntersectionObserver' in window)) return;
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var n = en.target.querySelector('.chap__n');
+        var t = en.target.querySelector('.chap__t');
+        if (n) nEl.textContent = n.textContent.trim();
+        if (t) tEl.textContent = t.textContent.trim();
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    chapters.forEach(function (sec) { io.observe(sec); });
+  }
+
   function initMisc() {
     // 年份是每年都会过期的东西，交给运行时填
     Array.prototype.forEach.call(doc.querySelectorAll('[data-year]'), function (el) {
@@ -161,6 +293,11 @@
 
   ready(function () {
     initReveal();
+    initCounters();
+    initGroupStagger();
+    initFilmstrip();
+    initMagnetic();
+    initFolio();
     initLightbox();
     initNav();
     initMisc();

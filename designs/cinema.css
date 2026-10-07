@@ -127,6 +127,62 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .open__cta span { animation: bob 1.8s ease-in-out infinite; }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
 
+/* 磁吸 CTA（taste-skill §5：MOTION>5 且品牌/机构向时用）。
+   动机=反馈：指针靠近时按钮微微"迎上来"，是高级消费/品牌页的
+   标志性触感。位移上限 ±6px —— 是"磁"不是"追"。由 JS 写 CSS 变量，
+   reduced-motion 下 JS 直接不启用，按钮回到普通 hover。 */
+.open__cta { transform: translate(var(--mx, 0), var(--my, 0)); }
+.open__cta:hover { transform: translate(var(--mx, 0), calc(var(--my, 0) - 2px)); }
+
+/* ---------------------------------------------------------------- 能力跑马灯
+   taste-skill §5：全页只此一条跑马灯（MAX-ONE-PER-PAGE）。
+   无缝循环：内容在 HTML 里已复制两份，动画位移 -50% 后跳回，视觉无接缝。 */
+.stripflow {
+  overflow: hidden;
+  border-block: 1px solid var(--border);
+  padding: 18px 0;
+  background: var(--bg-2);
+}
+.stripflow__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 26px;
+  white-space: nowrap;
+  will-change: transform;
+  animation: stripflow 36s linear infinite;
+}
+.stripflow__track span {
+  font-size: clamp(1.2rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+}
+.stripflow__track i {
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 800;
+}
+@keyframes stripflow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+/* 悬停停下：给想细看牌号的人一个抓手（反馈类动机） */
+.stripflow:hover .stripflow__track { animation-play-state: paused; }
+
+/* ---------------------------------------------------------------- 观影进度条 */
+.filmstrip {
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  width: 3px;
+  z-index: 60;
+  background: rgba(255, 255, 255, 0.08);
+}
+.filmstrip__fill {
+  width: 100%;
+  height: 0;                       /* 由 JS 按滚动进度更新 */
+  background: var(--accent);
+}
+
 /* ---------------------------------------------------------------- 数字卷轴 */
 .reels { display: block; }
 .reel {
@@ -142,12 +198,28 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 .reel__veil { background: linear-gradient(to top, rgba(9,11,14,.9), rgba(9,11,14,.55)); }
 .reel__in { position: relative; z-index: 1; text-align: center; padding: 40px 24px; }
+/* 卷轴内容入场（动机=storytelling：先看到数字落定，标签再跟上来）。
+   挂在 .js-ready 与 data-revealed 下：JS 没跑时内容照常显示。 */
+.js-ready .reel[data-reveal] .reel__n,
+.js-ready .reel[data-reveal] .reel__label {
+  opacity: 0;
+  transform: translateY(26px) scale(0.97);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+.js-ready .reel[data-reveal] .reel__label { transition-delay: 180ms; }
+.js-ready .reel[data-reveal][data-revealed="1"] .reel__n,
+.js-ready .reel[data-reveal][data-revealed="1"] .reel__label {
+  opacity: 1;
+  transform: none;
+}
 .reel__n { display: flex; align-items: baseline; justify-content: center; gap: 8px; }
 .reel__num {
   font-size: clamp(3.4rem, 12vw, 9rem); font-weight: 800;
   line-height: 0.95; letter-spacing: -0.04em;
   color: var(--text);
   text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  /* 等宽数字：滚动计数时数字宽度不抖（每次 +1 不再左右跳） */
+  font-variant-numeric: tabular-nums;
 }
 .reel__unit { font-size: clamp(1rem, 2.4vw, 1.8rem); font-weight: 700; color: var(--accent); }
 .reel__label {
@@ -272,6 +344,10 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   .js-ready [data-reveal] { opacity: 1; transform: none; }
   .open__bg img, .reel__bg img, .open__cta span { animation: none; }
+  /* 跑马灯是无限循环动画：skill §6.B（非协商条款）要求在
+     reduced-motion 下必须坍缩为静态。内容仍在（第一屏份可见），
+     只是不再滚动。 */
+  .stripflow__track { animation: none; }
 }
 
 /* ---------------------------------------------------------------- 响应式 */
