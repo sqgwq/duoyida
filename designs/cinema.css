@@ -382,3 +382,69 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .reel__num, .open__h, .big { color: #000; }
   .js-ready [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* ---------------------------------------------------------------- 行业资讯
+   呈现方式：**大字号首条（封面故事）+ 其余横向滑动卡片**。
+   为什么不用小字列表：本设计是"影片"语言，资讯应以大字开场。
+   横排用 overflow-x 原生滚动（触屏/滚轮都支持），不做 JS 轮播 ——
+   轮播会把内容藏在 JS 里，破坏"静态可搜"的前提。 */
+.insights { margin-top: 34px; }
+
+.inslead { border-top: 2px solid var(--accent); padding-top: 26px; }
+.inslead__t {
+  font-size: clamp(1.5rem, 3.6vw, 2.5rem);
+  margin: 10px 0 14px; max-width: 24em;
+}
+.inslead__s { color: var(--text-muted); font-size: clamp(0.98rem, 1.6vw, 1.12rem); max-width: 56ch; }
+
+.insdetail { margin-top: 16px; }
+.insdetail > summary {
+  cursor: pointer; list-style: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.9rem; font-weight: 700; color: var(--accent);
+  border-bottom: 1px solid var(--accent); padding-bottom: 2px;
+}
+.insdetail > summary::-webkit-details-marker { display: none; }
+.insdetail[open] > summary { margin-bottom: 18px; }
+.insdetail > div h4 {
+  font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin: 20px 0 8px;
+}
+.insdetail > div p { color: #dde3e9; font-size: 0.95rem; margin-bottom: 8px; }
+.insdetail > div ul { padding-left: 1.2em; list-style: disc; }
+.insdetail > div li { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+.insbasis {
+  margin-top: 18px; padding: 12px 14px;
+  border-left: 2px solid var(--accent); background: rgba(255, 255, 255, 0.04);
+  font-size: 0.82rem; color: var(--text-muted);
+}
+.insbasis b { color: var(--text); }
+
+/* 横排卡片：原生横向滚动。scroll-snap 让每张卡停得整齐。 */
+.insrow {
+  margin-top: 44px;
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 1fr);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 14px;
+  /* 自定义细滚动条，别用系统粗条破坏黑底观感 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+.insrow::-webkit-scrollbar { height: 4px; }
+.insrow::-webkit-scrollbar-thumb { background: var(--accent); }
+.inscard {
+  scroll-snap-align: start;
+  padding: 22px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+.inscard__tag {
+  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); font-weight: 700;
+}
+.inscard__t { font-size: 1.12rem; margin: 8px 0 8px; line-height: 1.35; }
+.inscard__s { color: var(--text-muted); font-size: 0.88rem; }

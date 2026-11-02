@@ -317,3 +317,46 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
   .chap { break-inside: avoid; padding: 24px 0; }
   .js-ready [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* ---------------------------------------------------------------- 行业资讯
+   呈现方式：**像册子里的一章** —— 每篇一个展开的小节，serif 标题 + 分段正文。
+   为什么不用折叠（technical 用了折叠）：本设计是"印刷品"，册子上的内容
+   是摊开的；折叠属于网页交互习惯，会破坏翻阅感。 */
+.ins-list { margin-top: var(--space-md); }
+.ins {
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--border);
+}
+.ins:last-child { border-bottom: none; }
+.ins__no {
+  font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 8px;
+}
+.ins__t {
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  line-height: 1.35; max-width: 30em;
+}
+.ins__lead {
+  margin-top: 12px; color: var(--text-muted);
+  font-size: 1rem; max-width: 62ch;
+}
+.ins__body { margin-top: 20px; max-width: 68ch; }
+.ins__h {
+  font-family: var(--sans);
+  font-size: 0.88rem; font-weight: 700;
+  margin: 20px 0 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.ins__p { color: var(--text-muted); font-size: 0.94rem; line-height: 1.85; }
+.ins__ul { padding-left: 1.3em; list-style: disc; }
+.ins__ul li {
+  color: var(--text-muted); font-size: 0.94rem;
+  line-height: 1.8; margin-bottom: 6px;
+}
+.ins__basis {
+  margin-top: 18px; padding: 10px 14px;
+  border-left: 2px solid var(--accent); background: var(--bg-2);
+  font-size: 0.8rem; color: var(--text-muted); max-width: 68ch;
+}
+.ins__basis b { color: var(--text); }

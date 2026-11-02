@@ -429,3 +429,61 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
   .band { break-inside: avoid; }
   .js-ready [data-reveal] { opacity: 1; }
 }
+
+/* ---------------------------------------------------------------- 行业资讯
+   呈现方式：编号条目 + 折叠详情（原生 <details>）。
+   为什么用折叠而不是整篇铺开：本设计是"规格书"，读者要"有哪几条、挑需要的看"。
+   <details> 是浏览器原生行为：零 JS、可被 Ctrl+F 搜到、禁用 JS 也能展开。 */
+.insights { display: grid; gap: 0; }
+.insight { border-top: 1px solid var(--border); }
+.insight:last-child { border-bottom: 1px solid var(--border); }
+
+.insight__sum {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 14px 0; cursor: pointer;
+  list-style: none;                       /* 去掉默认三角 */
+  transition: color 160ms ease;
+}
+.insight__sum::-webkit-details-marker { display: none; }
+.insight__sum:hover { color: var(--accent); }
+/* 自绘一个 + / − 指示器：原生三角在各浏览器大小不一，且与等宽数字不搭 */
+.insight__sum::after {
+  content: '+';
+  margin-left: auto;
+  font-family: var(--mono); font-weight: 700;
+  color: var(--accent); flex: 0 0 auto;
+}
+.insight[open] .insight__sum::after { content: '−'; }
+
+.insight__no {
+  font-family: var(--mono); font-size: var(--fs-sm); font-weight: 700;
+  color: var(--accent); flex: 0 0 26px;
+}
+.insight__tag {
+  font-size: var(--fs-xs); padding: 2px 8px;
+  border: 1px solid var(--border-strong); color: var(--text-muted);
+  flex: 0 0 auto;
+}
+.insight__t { font-size: var(--fs-body); font-weight: 600; }
+
+.insight__body { padding: 0 0 var(--space-md) 38px; }
+.insight__sum2 { color: var(--text-muted); font-size: var(--fs-sm); margin-bottom: 14px; }
+.insight__body h4 {
+  font-size: var(--fs-sm); font-weight: 700;
+  margin: var(--space-md) 0 6px;
+  padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.insight__body p { font-size: var(--fs-sm); color: var(--text-muted); }
+.insight__body ul { margin: 0; padding-left: 1.2em; list-style: disc; }
+.insight__body li { font-size: var(--fs-sm); color: var(--text-muted); margin-bottom: 5px; }
+.insight__basis {
+  margin-top: var(--space-md); padding: 10px 12px;
+  background: var(--brand-soft); font-size: var(--fs-xs) !important;
+  border-left: 2px solid var(--accent);
+}
+.insight__basis b { color: var(--text); }
+
+@media (max-width: 620px) {
+  .insight__body { padding-left: 0; }
+  .insight__tag { display: none; }        /* 窄屏优先保标题，标签省掉 */
+}

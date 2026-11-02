@@ -1039,3 +1039,62 @@ figure { margin: 0; }
   .js-ready [data-reveal] { opacity: 1; transform: none; }
   .section { padding-block: var(--space-lg); break-inside: avoid; }
 }
+
+/* ---------------------------------------------------------------- 行业资讯（卡片流）
+   只有稳妥版用这套（其余三套各有自己的呈现，见 designs/*.css）。
+   用原生 <details> 承载展开：零新增 JS，禁用 JS 也能点开。 */
+.igrid {
+  display: grid; gap: var(--space-md);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.icard { padding: 0; overflow: hidden; }
+.icard__sum {
+  display: block; padding: var(--pad-card);
+  cursor: pointer; list-style: none; position: relative;
+}
+.icard__sum::-webkit-details-marker { display: none; }
+.icard__tag {
+  display: inline-block; font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.08em; color: var(--accent-strong);
+  background: var(--brand-tint); padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+.icard__t {
+  font-size: var(--fs-h3); margin-top: var(--space-xs);
+  line-height: var(--lh-snug);
+}
+.icard__s { margin-top: var(--space-xs); font-size: var(--fs-sm); color: var(--text-muted); }
+.icard__more {
+  display: inline-block; margin-top: var(--space-xs);
+  font-size: var(--fs-xs); font-weight: 700; color: var(--brand);
+}
+.icard[open] .icard__more::after { content: '（收起）'; }
+.icard:not([open]) .icard__more::after { content: '全文 →'; }
+
+.icard__body {
+  padding: 0 var(--pad-card) var(--pad-card);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-sm);
+}
+.icard__body h4 {
+  font-size: var(--fs-sm); font-weight: 700;
+  margin: var(--space-md) 0 var(--space-2xs);
+}
+.icard__body h4:first-child { margin-top: 0; }
+.icard__body p { font-size: var(--fs-sm); color: var(--text-muted); }
+.icard__body ul { padding-left: 1.15em; list-style: disc; }
+.icard__body li {
+  font-size: var(--fs-sm); color: var(--text-muted);
+  margin-bottom: var(--space-2xs);
+}
+.icard__basis {
+  margin-top: var(--space-md); padding: var(--space-xs) var(--space-sm);
+  background: var(--brand-tint); border-left: 2px solid var(--accent);
+  font-size: var(--fs-xs) !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.icard__basis b { color: var(--text); }
+
+@media (max-width: 980px) { .igrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .igrid { grid-template-columns: minmax(0, 1fr); } }
