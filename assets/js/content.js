@@ -201,7 +201,7 @@
     // 兜底值同样用营业执照上的名称（与 facts.json 一致）。
     // 这里若写成宣传册正文那版（含「工业」），一旦 facts.json 没加载上，
     // 页面就会退回错误的公司名 —— 兜底值必须与权威来源一致。
-    name: fact('name_cn', '无锡多易达科技有限公司'),
+    name: fact('name_cn', '无锡多易达工业科技有限公司'),
     nameEn: fact('name_en', 'Wuxi Duoyida Metal Technology Co.,Ltd.'),
     address: fact('address', ''),
     phones: fact('phones', []),
