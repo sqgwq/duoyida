@@ -275,6 +275,29 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 .strip img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-radius: var(--radius); }
 
+/* 实拍照片墙：原生横向滚动，一组一条胶片带。
+   颜色/圆角全部走令牌，滚动条沿用资讯卡片的细条写法（黑底不显突兀）。 */
+.photorow { margin-top: clamp(36px, 5vw, 64px); }
+.photorow__head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 16px; margin-bottom: 18px;
+}
+.photorow__head .muted { margin-bottom: 0; }
+.photorow__n { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+.photorow__track {
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 30vw); gap: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 0 24px 14px;
+  scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+}
+.photorow__track img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block;
+  border-radius: var(--radius); scroll-snap-align: start;
+}
+.photorow__track::-webkit-scrollbar { height: 4px; }
+.photorow__track::-webkit-scrollbar-thumb { background: var(--accent); }
+
 /* 加工能力：无卡片，靠文字分组与留白 */
 .caps { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 34px; }
 .cap h3 { font-size: 1.12rem; margin-bottom: 8px; }
@@ -383,6 +406,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 560px) {
   .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mats { gap: 20px; }
+  /* 小屏一张占大半屏宽，滑动时仍能看出"还有下一张" */
+  .photorow__track { grid-auto-columns: minmax(220px, 72vw); }
+  .photorow__head { align-items: flex-start; flex-direction: column; }
 }
 
 @media print {
