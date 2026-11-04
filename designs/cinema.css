@@ -234,8 +234,18 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------------------------------------------------------------- 区块 */
-.block { padding: clamp(64px, 9vw, 120px) 0; background: var(--bg); }
+/* 区块纵向节奏只定义一次（--sec-pad），#about 的图带/文字都继承它，
+   避免"改一处忘一处"的内边距漂移。 */
+.block { --sec-pad: clamp(64px, 9vw, 120px); padding: var(--sec-pad) 0; background: var(--bg); }
 .block--dark { background: var(--bg-2); }
+
+/* About 顶部的厂门图带：贴住区块顶（抵消 .block 的上内边距），
+   图带下方由 .wrap 的 padding-top 恢复文字的呼吸空间。
+   全部规则锁死在 #about 作用域内，其他区块零影响。 */
+#about { padding-top: 0; }
+#about .wrap { padding-top: var(--sec-pad); }
+.about__media { margin: 0; height: clamp(240px, 36vw, 460px); overflow: hidden; }
+.about__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .kick {
   font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
