@@ -279,14 +279,15 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .strip img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-radius: var(--radius); }
 
 /* ---------------------------------------------------------------- 实拍一览
-   一屏一主角：每组一张满幅主图进主叙事链路，其余实拍证据收在本组
-   原生 <details> 展开层；零新增 JS（details 是浏览器原生行为）。
+   一屏一主角：每组一张主图进主叙事链路（与正文同宽、限高、不铺满），
+   其余实拍证据收在本组原生 <details> 展开层；零新增 JS。
 
    为什么删掉原来的 4:3 + object-fit:cover：44 张里实测 22 张是竖构图，
    定死 4:3 再 cover 会把竖图上下半截裁掉。实拍证据的职责是「逐张看清」
-   （见 CONTEXT.md），不能为了版面整齐裁掉主体。现在 width:100% +
-   height:auto，按落盘文件真实比例整张可见；width/height 属性让浏览器
-   在图片加载前就留出正确比例，不会加载完再跳。 */
+   （见 CONTEXT.md），不能为了版面整齐裁掉主体。现在 width:auto +
+   max-width:100% + height:auto + max-height:68svh，按落盘文件真实比例
+   整张可见；width/height 属性让浏览器加载前就留出正确比例，不会加载完再跳。
+   2026-11-05 判据修订：满幅只属于氛围底图，实拍证据不铺满（见 CONTEXT.md）。 */
 .photorow { margin-top: clamp(72px, 10vw, 140px); }
 .photorow__head {
   display: flex; justify-content: space-between; align-items: flex-end;
@@ -303,22 +304,30 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   text-align: left; cursor: zoom-in;
 }
 
-/* 主图：整幅铺满、不裁。图注与正文同宽（max-width 对齐 .wrap）。 */
-.photorow__feature { margin: 0; }
+/* 主图：与正文同宽、限高、不铺满（2026-11-05 反馈「不用铺满」）。
+   判据修订：实拍证据不是氛围底图 —— 氛围底图可以满幅铺底、也允许为版面裁切；
+   实拍证据要被逐张看清，还要和图注、展开入口同处一屏，所以主图收进 .wrap
+   的 1180px 内容宽、左边缘与组标题对齐，高度不超过 68svh，右侧留大片空白。
+   width:auto + max-width:100% + height:auto 让浏览器按落盘比例缩放，一整张都在；
+   object-fit:contain 是双保险，不产生 cover 那种裁切。竖图不再单开规则。
+
+   2026-11-05 夜补：只写 width:auto 时，**懒加载且尚未解码**的 img 没有内在尺寸，
+   Chrome 把盒子算成 0×0；六张主图陆续到达会让 #photos 突然长高约 2300px，
+   连带把下面的 About 推走（真浏览器验证「厂门图完整展示」因此报 loaded:false）。
+   min-width 用每张图自己的落盘宽度 --ph-w 给出确定下限，配合 img 上的
+   width/height 属性，浏览器在解码前就能按原比例留好位置；限高夹紧后盒子会
+   比画面略宽，故 object-position 左对齐，画面仍贴组标题左边缘、不居中偏移。 */
+.photorow__feature { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 .photorow__feature figcaption,
 .photorow__shot figcaption {
   max-width: 1180px; margin: 0 auto;
   font-size: 0.86rem; color: var(--text-muted);
 }
-.photorow__feature figcaption { padding: 14px 24px 0; }
+.photorow__feature figcaption { padding: 14px 0 0; }
 .photorow__feature .photorow__zoom img {
-  width: 100%; height: auto; display: block;
-}
-/* 铜镍组只有一张竖构图主图，不限高会拉出近两屏的长图。
-   用 contain 把它**完整**收进 76svh 的满幅带：两侧留的是底色，
-   不是裁掉的画面，与 object-fit:cover 有本质区别。 */
-.photorow__feature--tall .photorow__zoom img {
-  max-height: 76svh; object-fit: contain; background: var(--bg-2);
+  width: auto; max-width: 100%; height: auto; max-height: 68svh;
+  min-width: min(100%, var(--ph-w, 900px)); object-position: left center;
+  object-fit: contain; display: block;
 }
 
 /* 证据展开层：与站内「展开全文」同一套原生 details 写法。 */
@@ -453,7 +462,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .mats { gap: 20px; }
   .photorow__grid { column-count: 1; }
   .photorow__head { align-items: flex-start; flex-direction: column; }
-  .photorow__feature--tall .photorow__zoom img { max-height: 68svh; }
+  /* 小屏与桌面同一口径：桌面规则里的 68svh 会自动继承，
+     不再为 --tall 单开一条（390px 时图片先受 max-width 约束）。 */
 }
 
 @media print {
