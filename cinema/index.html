@@ -256,14 +256,14 @@
     </div>
   </section>
 
-  <!-- 实拍照片墙（公司照片包，44 张已过审计） -->
+  <!-- 实拍一览（公司照片包，44 张已过审计；一屏一主角 + 证据展开层） -->
   <section class="block" id="photos">
     <div class="wrap">
-      <p class="kick">Gallery</p>
+      <p class="kick">Field Evidence</p>
       <h2 class="big">实拍一览</h2>
-      <p class="muted">厂区、加工与产品的现场照片，按业务分组，可左右滑动查看。</p>
+      <p class="muted">厂区、加工与产品的现场实拍，按业务分组。每组一张满幅主图，其余实拍证据可展开逐张查看。</p>
     </div>
-      <div class="photorow" data-photo-group="p-workshop">
+      <div class="photorow" data-photo-group="p-workshop" role="group" aria-label="生产车间实拍证据">
         <div class="wrap photorow__head">
           <div>
             <h3 class="k3">生产车间</h3>
@@ -271,16 +271,69 @@
           </div>
           <span class="photorow__n">6 张实拍</span>
         </div>
-        <div class="photorow__track" role="group" aria-label="生产车间实拍照片">
-          <img src="../assets/img/photos/workshop/e0075286487ff895ee38865ffb32c03f.jpg" alt="生产车间" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/workshop/微信图片_20211108135839.jpg" alt="生产车间" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/workshop/微信图片_20211108135842.jpg" alt="生产车间" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/workshop/微信图片_20211108135849.jpg" alt="生产车间" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/workshop/微信图片_20211108135902.jpg" alt="生产车间" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/workshop/微信图片_20211108135905.jpg" alt="生产车间" loading="lazy" decoding="async">
+        <figure class="photorow__feature">
+          <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/workshop/e0075286487ff895ee38865ffb32c03f.jpg" data-zoom-alt="高窗厂房里竖立的灰色大机器" data-zoom-cap="高窗厂房里竖立的灰色大机器"
+              aria-label="放大查看：高窗厂房里竖立的灰色大机器">
+            <img src="../assets/img/photos/workshop/e0075286487ff895ee38865ffb32c03f.jpg" alt="高窗厂房里竖立的灰色大机器" width="900" height="674"
+                 loading="lazy" decoding="async">
+          </button>
+          <figcaption>高窗厂房里竖立的灰色大机器</figcaption>
+        </figure>
+        <div class="wrap">
+          <details class="photorow__evidence">
+            <summary>展开本组其余 5 张实拍证据</summary>
+            <div class="photorow__grid">
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/workshop/微信图片_20211108135839.jpg" data-zoom-alt="墙边木梯旁绿色机器卷着弧形板" data-zoom-cap="墙边木梯旁绿色机器卷着弧形板"
+              aria-label="放大查看：墙边木梯旁绿色机器卷着弧形板">
+            <img src="../assets/img/photos/workshop/微信图片_20211108135839.jpg" alt="墙边木梯旁绿色机器卷着弧形板" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>墙边木梯旁绿色机器卷着弧形板</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/workshop/微信图片_20211108135842.jpg" data-zoom-alt="绿色机器前立起的整圈银色弧板" data-zoom-cap="绿色机器前立起的整圈银色弧板"
+              aria-label="放大查看：绿色机器前立起的整圈银色弧板">
+            <img src="../assets/img/photos/workshop/微信图片_20211108135842.jpg" alt="绿色机器前立起的整圈银色弧板" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>绿色机器前立起的整圈银色弧板</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/workshop/微信图片_20211108135849.jpg" data-zoom-alt="顶上放着木箱的蓝白长机器" data-zoom-cap="顶上放着木箱的蓝白长机器"
+              aria-label="放大查看：顶上放着木箱的蓝白长机器">
+            <img src="../assets/img/photos/workshop/微信图片_20211108135849.jpg" alt="顶上放着木箱的蓝白长机器" width="900" height="674"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>顶上放着木箱的蓝白长机器</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/workshop/微信图片_20211108135902.jpg" data-zoom-alt="蓝色机器前并排三个银锥筒" data-zoom-cap="蓝色机器前并排三个银锥筒"
+              aria-label="放大查看：蓝色机器前并排三个银锥筒">
+            <img src="../assets/img/photos/workshop/微信图片_20211108135902.jpg" alt="蓝色机器前并排三个银锥筒" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>蓝色机器前并排三个银锥筒</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/workshop/微信图片_20211108135905.jpg" data-zoom-alt="蓝色长导轨机器旁堆着银色圆管" data-zoom-cap="蓝色长导轨机器旁堆着银色圆管"
+              aria-label="放大查看：蓝色长导轨机器旁堆着银色圆管">
+            <img src="../assets/img/photos/workshop/微信图片_20211108135905.jpg" alt="蓝色长导轨机器旁堆着银色圆管" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>蓝色长导轨机器旁堆着银色圆管</figcaption>
+          </figure>
+            </div>
+          </details>
         </div>
       </div>
-      <div class="photorow" data-photo-group="p-prefab">
+      <div class="photorow" data-photo-group="p-prefab" role="group" aria-label="预制加工实拍证据">
         <div class="wrap photorow__head">
           <div>
             <h3 class="k3">预制加工</h3>
@@ -288,17 +341,78 @@
           </div>
           <span class="photorow__n">7 张实拍</span>
         </div>
-        <div class="photorow__track" role="group" aria-label="预制加工实拍照片">
-          <img src="../assets/img/photos/prefab/40a44bbb207e10b4e659510fa560eb2d.jpg" alt="预制加工" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/prefab/5327de42bb5790ada122598cee13cc3e.jpg" alt="预制加工" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/prefab/bd07b61ede84b1a784975c2b01803fe2.jpg" alt="预制加工" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/prefab/bd80b3779aa120828a3f2d39efa90c58.jpg" alt="预制加工" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/prefab/c767a5d0470122db11d8e6dfea8a81c3.jpg" alt="预制加工" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/prefab/d0e180d394de614054a8251e2f4784d2.jpg" alt="预制加工" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/prefab/第10页-50_1_.jpg" alt="预制加工" loading="lazy" decoding="async">
+        <figure class="photorow__feature">
+          <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/第10页-50_1_.jpg" data-zoom-alt="带两只蓝吊耳的密孔银色大圆盘" data-zoom-cap="带两只蓝吊耳的密孔银色大圆盘"
+              aria-label="放大查看：带两只蓝吊耳的密孔银色大圆盘">
+            <img src="../assets/img/photos/prefab/第10页-50_1_.jpg" alt="带两只蓝吊耳的密孔银色大圆盘" width="900" height="675"
+                 loading="lazy" decoding="async">
+          </button>
+          <figcaption>带两只蓝吊耳的密孔银色大圆盘</figcaption>
+        </figure>
+        <div class="wrap">
+          <details class="photorow__evidence">
+            <summary>展开本组其余 6 张实拍证据</summary>
+            <div class="photorow__grid">
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/40a44bbb207e10b4e659510fa560eb2d.jpg" data-zoom-alt="带钢印的双法兰短管与两圈环纹" data-zoom-cap="带钢印的双法兰短管与两圈环纹"
+              aria-label="放大查看：带钢印的双法兰短管与两圈环纹">
+            <img src="../assets/img/photos/prefab/40a44bbb207e10b4e659510fa560eb2d.jpg" alt="带钢印的双法兰短管与两圈环纹" width="675" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>带钢印的双法兰短管与两圈环纹</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/5327de42bb5790ada122598cee13cc3e.jpg" data-zoom-alt="墙边木梯前斜堆的一排法兰长管" data-zoom-cap="墙边木梯前斜堆的一排法兰长管"
+              aria-label="放大查看：墙边木梯前斜堆的一排法兰长管">
+            <img src="../assets/img/photos/prefab/5327de42bb5790ada122598cee13cc3e.jpg" alt="墙边木梯前斜堆的一排法兰长管" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>墙边木梯前斜堆的一排法兰长管</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/bd07b61ede84b1a784975c2b01803fe2.jpg" data-zoom-alt="地上覆着透明膜的银色大锥筒" data-zoom-cap="地上覆着透明膜的银色大锥筒"
+              aria-label="放大查看：地上覆着透明膜的银色大锥筒">
+            <img src="../assets/img/photos/prefab/bd07b61ede84b1a784975c2b01803fe2.jpg" alt="地上覆着透明膜的银色大锥筒" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>地上覆着透明膜的银色大锥筒</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/bd80b3779aa120828a3f2d39efa90c58.jpg" data-zoom-alt="木箱里交叉叠放的带法兰弯管" data-zoom-cap="木箱里交叉叠放的带法兰弯管"
+              aria-label="放大查看：木箱里交叉叠放的带法兰弯管">
+            <img src="../assets/img/photos/prefab/bd80b3779aa120828a3f2d39efa90c58.jpg" alt="木箱里交叉叠放的带法兰弯管" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木箱里交叉叠放的带法兰弯管</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/c767a5d0470122db11d8e6dfea8a81c3.jpg" data-zoom-alt="绿色支架旁堆着大法兰长管和小法兰" data-zoom-cap="绿色支架旁堆着大法兰长管和小法兰"
+              aria-label="放大查看：绿色支架旁堆着大法兰长管和小法兰">
+            <img src="../assets/img/photos/prefab/c767a5d0470122db11d8e6dfea8a81c3.jpg" alt="绿色支架旁堆着大法兰长管和小法兰" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>绿色支架旁堆着大法兰长管和小法兰</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/prefab/d0e180d394de614054a8251e2f4784d2.jpg" data-zoom-alt="厂房里带脚轮的蜂窝孔黑色大方箱" data-zoom-cap="厂房里带脚轮的蜂窝孔黑色大方箱"
+              aria-label="放大查看：厂房里带脚轮的蜂窝孔黑色大方箱">
+            <img src="../assets/img/photos/prefab/d0e180d394de614054a8251e2f4784d2.jpg" alt="厂房里带脚轮的蜂窝孔黑色大方箱" width="675" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>厂房里带脚轮的蜂窝孔黑色大方箱</figcaption>
+          </figure>
+            </div>
+          </details>
         </div>
       </div>
-      <div class="photorow" data-photo-group="p-marine">
+      <div class="photorow" data-photo-group="p-marine" role="group" aria-label="船舶管路实拍证据">
         <div class="wrap photorow__head">
           <div>
             <h3 class="k3">船舶管路</h3>
@@ -306,20 +420,105 @@
           </div>
           <span class="photorow__n">10 张实拍</span>
         </div>
-        <div class="photorow__track" role="group" aria-label="船舶管路实拍照片">
-          <img src="../assets/img/photos/marine/19d93dddcc3637b570eb5807b406a2bf.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/1f5cc3405edb968f4fccce72a10c3d06.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/3c90f5209bc07410e9d49f35f5b519cb.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/3d321e529facdc34ae4315e36b271d00.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/46e0937707782f58f8b673d3f662a82c.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/56ba02ed283074cad723a81b0a4cc0b6.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/5ab493a2bb861187ac2749b4451c2be7.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/67c637f4bd2021537084d08c5b609924.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/6df25c059db3e335a6153af1e091d878.jpg" alt="船舶管路" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/marine/cb3966e5797c9c4a35cd03dcd2b3d87b.jpg" alt="船舶管路" loading="lazy" decoding="async">
+        <figure class="photorow__feature">
+          <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/19d93dddcc3637b570eb5807b406a2bf.jpg" data-zoom-alt="厂房里红叉车旁横放的巨型银筒" data-zoom-cap="厂房里红叉车旁横放的巨型银筒"
+              aria-label="放大查看：厂房里红叉车旁横放的巨型银筒">
+            <img src="../assets/img/photos/marine/19d93dddcc3637b570eb5807b406a2bf.jpg" alt="厂房里红叉车旁横放的巨型银筒" width="900" height="506"
+                 loading="lazy" decoding="async">
+          </button>
+          <figcaption>厂房里红叉车旁横放的巨型银筒</figcaption>
+        </figure>
+        <div class="wrap">
+          <details class="photorow__evidence">
+            <summary>展开本组其余 9 张实拍证据</summary>
+            <div class="photorow__grid">
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/1f5cc3405edb968f4fccce72a10c3d06.jpg" data-zoom-alt="蓝色滚轮架上横放的开口大圆筒" data-zoom-cap="蓝色滚轮架上横放的开口大圆筒"
+              aria-label="放大查看：蓝色滚轮架上横放的开口大圆筒">
+            <img src="../assets/img/photos/marine/1f5cc3405edb968f4fccce72a10c3d06.jpg" alt="蓝色滚轮架上横放的开口大圆筒" width="900" height="675"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>蓝色滚轮架上横放的开口大圆筒</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/3c90f5209bc07410e9d49f35f5b519cb.jpg" data-zoom-alt="红色车厢里木垫上的双法兰短管" data-zoom-cap="红色车厢里木垫上的双法兰短管"
+              aria-label="放大查看：红色车厢里木垫上的双法兰短管">
+            <img src="../assets/img/photos/marine/3c90f5209bc07410e9d49f35f5b519cb.jpg" alt="红色车厢里木垫上的双法兰短管" width="900" height="426"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>红色车厢里木垫上的双法兰短管</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/3d321e529facdc34ae4315e36b271d00.jpg" data-zoom-alt="瓦房前露天横放的带法兰大银筒" data-zoom-cap="瓦房前露天横放的带法兰大银筒"
+              aria-label="放大查看：瓦房前露天横放的带法兰大银筒">
+            <img src="../assets/img/photos/marine/3d321e529facdc34ae4315e36b271d00.jpg" alt="瓦房前露天横放的带法兰大银筒" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>瓦房前露天横放的带法兰大银筒</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/46e0937707782f58f8b673d3f662a82c.jpg" data-zoom-alt="厂房里落地横放的开口大银锥筒" data-zoom-cap="厂房里落地横放的开口大银锥筒"
+              aria-label="放大查看：厂房里落地横放的开口大银锥筒">
+            <img src="../assets/img/photos/marine/46e0937707782f58f8b673d3f662a82c.jpg" alt="厂房里落地横放的开口大银锥筒" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>厂房里落地横放的开口大银锥筒</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/56ba02ed283074cad723a81b0a4cc0b6.jpg" data-zoom-alt="吊钩下立着的银色大弯头旁站一人" data-zoom-cap="吊钩下立着的银色大弯头旁站一人"
+              aria-label="放大查看：吊钩下立着的银色大弯头旁站一人">
+            <img src="../assets/img/photos/marine/56ba02ed283074cad723a81b0a4cc0b6.jpg" alt="吊钩下立着的银色大弯头旁站一人" width="506" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>吊钩下立着的银色大弯头旁站一人</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/5ab493a2bb861187ac2749b4451c2be7.jpg" data-zoom-alt="露天带小短管的大法兰口银筒" data-zoom-cap="露天带小短管的大法兰口银筒"
+              aria-label="放大查看：露天带小短管的大法兰口银筒">
+            <img src="../assets/img/photos/marine/5ab493a2bb861187ac2749b4451c2be7.jpg" alt="露天带小短管的大法兰口银筒" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>露天带小短管的大法兰口银筒</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/67c637f4bd2021537084d08c5b609924.jpg" data-zoom-alt="木台上压着细长金属条的双法兰短筒" data-zoom-cap="木台上压着细长金属条的双法兰短筒"
+              aria-label="放大查看：木台上压着细长金属条的双法兰短筒">
+            <img src="../assets/img/photos/marine/67c637f4bd2021537084d08c5b609924.jpg" alt="木台上压着细长金属条的双法兰短筒" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木台上压着细长金属条的双法兰短筒</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/6df25c059db3e335a6153af1e091d878.jpg" data-zoom-alt="红平板车上大口朝左的巨型银筒" data-zoom-cap="红平板车上大口朝左的巨型银筒"
+              aria-label="放大查看：红平板车上大口朝左的巨型银筒">
+            <img src="../assets/img/photos/marine/6df25c059db3e335a6153af1e091d878.jpg" alt="红平板车上大口朝左的巨型银筒" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>红平板车上大口朝左的巨型银筒</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/marine/cb3966e5797c9c4a35cd03dcd2b3d87b.jpg" data-zoom-alt="厂房里并排竖立的两只法兰银筒" data-zoom-cap="厂房里并排竖立的两只法兰银筒"
+              aria-label="放大查看：厂房里并排竖立的两只法兰银筒">
+            <img src="../assets/img/photos/marine/cb3966e5797c9c4a35cd03dcd2b3d87b.jpg" alt="厂房里并排竖立的两只法兰银筒" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>厂房里并排竖立的两只法兰银筒</figcaption>
+          </figure>
+            </div>
+          </details>
         </div>
       </div>
-      <div class="photorow" data-photo-group="p-cupronickel">
+      <div class="photorow" data-photo-group="p-cupronickel" role="group" aria-label="铜镍合金实拍证据">
         <div class="wrap photorow__head">
           <div>
             <h3 class="k3">铜镍合金</h3>
@@ -327,11 +526,17 @@
           </div>
           <span class="photorow__n">1 张实拍</span>
         </div>
-        <div class="photorow__track" role="group" aria-label="铜镍合金实拍照片">
-          <img src="../assets/img/photos/cupronickel/9fe506b56ef725e1055352932a0f18a7.jpg" alt="铜镍合金" loading="lazy" decoding="async">
-        </div>
+        <figure class="photorow__feature photorow__feature--tall">
+          <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/cupronickel/9fe506b56ef725e1055352932a0f18a7.jpg" data-zoom-alt="并排几根管身带黑印字的铜色直管" data-zoom-cap="并排几根管身带黑印字的铜色直管"
+              aria-label="放大查看：并排几根管身带黑印字的铜色直管">
+            <img src="../assets/img/photos/cupronickel/9fe506b56ef725e1055352932a0f18a7.jpg" alt="并排几根管身带黑印字的铜色直管" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+          <figcaption>并排几根管身带黑印字的铜色直管</figcaption>
+        </figure>
       </div>
-      <div class="photorow" data-photo-group="p-fittings">
+      <div class="photorow" data-photo-group="p-fittings" role="group" aria-label="法兰与管件实拍证据">
         <div class="wrap photorow__head">
           <div>
             <h3 class="k3">法兰与管件</h3>
@@ -339,18 +544,87 @@
           </div>
           <span class="photorow__n">8 张实拍</span>
         </div>
-        <div class="photorow__track" role="group" aria-label="法兰与管件实拍照片">
-          <img src="../assets/img/photos/flange/095694954ca2cc153f5f0759fe2e3442.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/4283bdd7e6ae99ed11fb184f6964a4a0.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/448098c2741e56f3fd99404ea6c1d6d3.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/4ffb03dbf898ae6eacd6e67b65227975.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/56ad7efc721a7420be2e528894428eac.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/84ac36338c5b8a4102a5728bafece4df.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/d956f4ad6342494dee009f3306c8f2e6.jpg" alt="法兰与管件" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/flange/e76edb60747bc858fa74b6d1b19b5c96.jpg" alt="法兰与管件" loading="lazy" decoding="async">
+        <figure class="photorow__feature">
+          <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/4283bdd7e6ae99ed11fb184f6964a4a0.jpg" data-zoom-alt="中心密布小孔外圈带大孔的圆盘" data-zoom-cap="中心密布小孔外圈带大孔的圆盘"
+              aria-label="放大查看：中心密布小孔外圈带大孔的圆盘">
+            <img src="../assets/img/photos/flange/4283bdd7e6ae99ed11fb184f6964a4a0.jpg" alt="中心密布小孔外圈带大孔的圆盘" width="900" height="674"
+                 loading="lazy" decoding="async">
+          </button>
+          <figcaption>中心密布小孔外圈带大孔的圆盘</figcaption>
+        </figure>
+        <div class="wrap">
+          <details class="photorow__evidence">
+            <summary>展开本组其余 7 张实拍证据</summary>
+            <div class="photorow__grid">
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/095694954ca2cc153f5f0759fe2e3442.jpg" data-zoom-alt="木箱里叠放带蓝色卡扣的环形法兰" data-zoom-cap="木箱里叠放带蓝色卡扣的环形法兰"
+              aria-label="放大查看：木箱里叠放带蓝色卡扣的环形法兰">
+            <img src="../assets/img/photos/flange/095694954ca2cc153f5f0759fe2e3442.jpg" alt="木箱里叠放带蓝色卡扣的环形法兰" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木箱里叠放带蓝色卡扣的环形法兰</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/448098c2741e56f3fd99404ea6c1d6d3.jpg" data-zoom-alt="木箱里覆膜带蓝色条纹的环形法兰" data-zoom-cap="木箱里覆膜带蓝色条纹的环形法兰"
+              aria-label="放大查看：木箱里覆膜带蓝色条纹的环形法兰">
+            <img src="../assets/img/photos/flange/448098c2741e56f3fd99404ea6c1d6d3.jpg" alt="木箱里覆膜带蓝色条纹的环形法兰" width="506" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木箱里覆膜带蓝色条纹的环形法兰</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/4ffb03dbf898ae6eacd6e67b65227975.jpg" data-zoom-alt="木箱里叠放多只光亮厚圆环" data-zoom-cap="木箱里叠放多只光亮厚圆环"
+              aria-label="放大查看：木箱里叠放多只光亮厚圆环">
+            <img src="../assets/img/photos/flange/4ffb03dbf898ae6eacd6e67b65227975.jpg" alt="木箱里叠放多只光亮厚圆环" width="900" height="675"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木箱里叠放多只光亮厚圆环</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/56ad7efc721a7420be2e528894428eac.jpg" data-zoom-alt="白底上竖立带颈的四孔法兰" data-zoom-cap="白底上竖立带颈的四孔法兰"
+              aria-label="放大查看：白底上竖立带颈的四孔法兰">
+            <img src="../assets/img/photos/flange/56ad7efc721a7420be2e528894428eac.jpg" alt="白底上竖立带颈的四孔法兰" width="866" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>白底上竖立带颈的四孔法兰</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/84ac36338c5b8a4102a5728bafece4df.jpg" data-zoom-alt="木箱里斜叠的覆膜法兰，孔口带蓝边" data-zoom-cap="木箱里斜叠的覆膜法兰，孔口带蓝边"
+              aria-label="放大查看：木箱里斜叠的覆膜法兰，孔口带蓝边">
+            <img src="../assets/img/photos/flange/84ac36338c5b8a4102a5728bafece4df.jpg" alt="木箱里斜叠的覆膜法兰，孔口带蓝边" width="674" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木箱里斜叠的覆膜法兰，孔口带蓝边</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/d956f4ad6342494dee009f3306c8f2e6.jpg" data-zoom-alt="密排的四孔小法兰上盖着蓝色圆片" data-zoom-cap="密排的四孔小法兰上盖着蓝色圆片"
+              aria-label="放大查看：密排的四孔小法兰上盖着蓝色圆片">
+            <img src="../assets/img/photos/flange/d956f4ad6342494dee009f3306c8f2e6.jpg" alt="密排的四孔小法兰上盖着蓝色圆片" width="900" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>密排的四孔小法兰上盖着蓝色圆片</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/flange/e76edb60747bc858fa74b6d1b19b5c96.jpg" data-zoom-alt="木箱里整齐码成多列的四孔小法兰" data-zoom-cap="木箱里整齐码成多列的四孔小法兰"
+              aria-label="放大查看：木箱里整齐码成多列的四孔小法兰">
+            <img src="../assets/img/photos/flange/e76edb60747bc858fa74b6d1b19b5c96.jpg" alt="木箱里整齐码成多列的四孔小法兰" width="675" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>木箱里整齐码成多列的四孔小法兰</figcaption>
+          </figure>
+            </div>
+          </details>
         </div>
       </div>
-      <div class="photorow" data-photo-group="p-tube">
+      <div class="photorow" data-photo-group="p-tube" role="group" aria-label="管材与钢带实拍证据">
         <div class="wrap photorow__head">
           <div>
             <h3 class="k3">管材与钢带</h3>
@@ -358,19 +632,120 @@
           </div>
           <span class="photorow__n">12 张实拍</span>
         </div>
-        <div class="photorow__track" role="group" aria-label="管材与钢带实拍照片">
-          <img src="../assets/img/photos/tube/6e6edf721633e502fe613250bb90e32d.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/7f61e151e5444a0c163f6f1d13228d88.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/8981a3b9ccf74d1e2c939c1b75ea60cd.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/d31e9910ed6b7a9617e041cb7c28305d.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/da0d46496517823bfb7d864a1b3d95bb.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/f731faa68cb428fc489178f1bf5e5cfd.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/f9c40cd19a5d0b22da3af1ef42e788cc.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/fa85443b1e21ff66cca30ad6244e4c67.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/fde099fe5e8014e71e5e04b57c88d35e.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/第8页-26_1_.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/第8页-34.jpg" alt="管材与钢带" loading="lazy" decoding="async">
-          <img src="../assets/img/photos/tube/第8页-36_1_.jpg" alt="管材与钢带" loading="lazy" decoding="async">
+        <figure class="photorow__feature">
+          <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/8981a3b9ccf74d1e2c939c1b75ea60cd.jpg" data-zoom-alt="地上成捆细圆管都套蓝色端盖" data-zoom-cap="地上成捆细圆管都套蓝色端盖"
+              aria-label="放大查看：地上成捆细圆管都套蓝色端盖">
+            <img src="../assets/img/photos/tube/8981a3b9ccf74d1e2c939c1b75ea60cd.jpg" alt="地上成捆细圆管都套蓝色端盖" width="900" height="675"
+                 loading="lazy" decoding="async">
+          </button>
+          <figcaption>地上成捆细圆管都套蓝色端盖</figcaption>
+        </figure>
+        <div class="wrap">
+          <details class="photorow__evidence">
+            <summary>展开本组其余 11 张实拍证据</summary>
+            <div class="photorow__grid">
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/6e6edf721633e502fe613250bb90e32d.jpg" data-zoom-alt="并排捆扎管口朝前的大口径圆管" data-zoom-cap="并排捆扎管口朝前的大口径圆管"
+              aria-label="放大查看：并排捆扎管口朝前的大口径圆管">
+            <img src="../assets/img/photos/tube/6e6edf721633e502fe613250bb90e32d.jpg" alt="并排捆扎管口朝前的大口径圆管" width="675" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>并排捆扎管口朝前的大口径圆管</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/7f61e151e5444a0c163f6f1d13228d88.jpg" data-zoom-alt="几根圆管上有一行黑色喷印字样" data-zoom-cap="几根圆管上有一行黑色喷印字样"
+              aria-label="放大查看：几根圆管上有一行黑色喷印字样">
+            <img src="../assets/img/photos/tube/7f61e151e5444a0c163f6f1d13228d88.jpg" alt="几根圆管上有一行黑色喷印字样" width="406" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>几根圆管上有一行黑色喷印字样</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/d31e9910ed6b7a9617e041cb7c28305d.jpg" data-zoom-alt="成片平铺的长圆管后方堆着绿袋" data-zoom-cap="成片平铺的长圆管后方堆着绿袋"
+              aria-label="放大查看：成片平铺的长圆管后方堆着绿袋">
+            <img src="../assets/img/photos/tube/d31e9910ed6b7a9617e041cb7c28305d.jpg" alt="成片平铺的长圆管后方堆着绿袋" width="900" height="675"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>成片平铺的长圆管后方堆着绿袋</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/da0d46496517823bfb7d864a1b3d95bb.jpg" data-zoom-alt="一排套蓝盖的长管管身印着字样" data-zoom-cap="一排套蓝盖的长管管身印着字样"
+              aria-label="放大查看：一排套蓝盖的长管管身印着字样">
+            <img src="../assets/img/photos/tube/da0d46496517823bfb7d864a1b3d95bb.jpg" alt="一排套蓝盖的长管管身印着字样" width="900" height="675"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>一排套蓝盖的长管管身印着字样</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/f731faa68cb428fc489178f1bf5e5cfd.jpg" data-zoom-alt="一捆细管的蓝色管口密集朝前" data-zoom-cap="一捆细管的蓝色管口密集朝前"
+              aria-label="放大查看：一捆细管的蓝色管口密集朝前">
+            <img src="../assets/img/photos/tube/f731faa68cb428fc489178f1bf5e5cfd.jpg" alt="一捆细管的蓝色管口密集朝前" width="747" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>一捆细管的蓝色管口密集朝前</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/f9c40cd19a5d0b22da3af1ef42e788cc.jpg" data-zoom-alt="密排细长圆管每根印着一行字" data-zoom-cap="密排细长圆管每根印着一行字"
+              aria-label="放大查看：密排细长圆管每根印着一行字">
+            <img src="../assets/img/photos/tube/f9c40cd19a5d0b22da3af1ef42e788cc.jpg" alt="密排细长圆管每根印着一行字" width="506" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>密排细长圆管每根印着一行字</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/fa85443b1e21ff66cca30ad6244e4c67.jpg" data-zoom-alt="衬着气泡膜的箱里排满亮细管" data-zoom-cap="衬着气泡膜的箱里排满亮细管"
+              aria-label="放大查看：衬着气泡膜的箱里排满亮细管">
+            <img src="../assets/img/photos/tube/fa85443b1e21ff66cca30ad6244e4c67.jpg" alt="衬着气泡膜的箱里排满亮细管" width="675" height="900"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>衬着气泡膜的箱里排满亮细管</figcaption>
+          </figure>
+          <figure class="photorow__shot">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/fde099fe5e8014e71e5e04b57c88d35e.jpg" data-zoom-alt="绿地上大口径圆管露出深色管口" data-zoom-cap="绿地上大口径圆管露出深色管口"
+              aria-label="放大查看：绿地上大口径圆管露出深色管口">
+            <img src="../assets/img/photos/tube/fde099fe5e8014e71e5e04b57c88d35e.jpg" alt="绿地上大口径圆管露出深色管口" width="900" height="621"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>绿地上大口径圆管露出深色管口</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/第8页-26_1_.jpg" data-zoom-alt="衬塑料膜的长木箱里密排细长管" data-zoom-cap="衬塑料膜的长木箱里密排细长管"
+              aria-label="放大查看：衬塑料膜的长木箱里密排细长管">
+            <img src="../assets/img/photos/tube/第8页-26_1_.jpg" alt="衬塑料膜的长木箱里密排细长管" width="595" height="804"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>衬塑料膜的长木箱里密排细长管</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/第8页-34.jpg" data-zoom-alt="衬白膜的长木箱里细管端套蓝帽" data-zoom-cap="衬白膜的长木箱里细管端套蓝帽"
+              aria-label="放大查看：衬白膜的长木箱里细管端套蓝帽">
+            <img src="../assets/img/photos/tube/第8页-34.jpg" alt="衬白膜的长木箱里细管端套蓝帽" width="500" height="666"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>衬白膜的长木箱里细管端套蓝帽</figcaption>
+          </figure>
+          <figure class="photorow__shot photorow__shot--tall">
+            <button class="photorow__zoom" type="button"
+              data-zoom="../assets/img/photos/tube/第8页-36_1_.jpg" data-zoom-alt="多捆细亮圆管扎着白色编织带" data-zoom-cap="多捆细亮圆管扎着白色编织带"
+              aria-label="放大查看：多捆细亮圆管扎着白色编织带">
+            <img src="../assets/img/photos/tube/第8页-36_1_.jpg" alt="多捆细亮圆管扎着白色编织带" width="502" height="668"
+                 loading="lazy" decoding="async">
+          </button>
+            <figcaption>多捆细亮圆管扎着白色编织带</figcaption>
+          </figure>
+            </div>
+          </details>
         </div>
       </div>
   </section>

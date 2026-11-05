@@ -278,28 +278,68 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 .strip img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-radius: var(--radius); }
 
-/* 实拍照片墙：原生横向滚动，一组一条胶片带。
-   颜色/圆角全部走令牌，滚动条沿用资讯卡片的细条写法（黑底不显突兀）。 */
-.photorow { margin-top: clamp(36px, 5vw, 64px); }
+/* ---------------------------------------------------------------- 实拍一览
+   一屏一主角：每组一张满幅主图进主叙事链路，其余实拍证据收在本组
+   原生 <details> 展开层；零新增 JS（details 是浏览器原生行为）。
+
+   为什么删掉原来的 4:3 + object-fit:cover：44 张里实测 22 张是竖构图，
+   定死 4:3 再 cover 会把竖图上下半截裁掉。实拍证据的职责是「逐张看清」
+   （见 CONTEXT.md），不能为了版面整齐裁掉主体。现在 width:100% +
+   height:auto，按落盘文件真实比例整张可见；width/height 属性让浏览器
+   在图片加载前就留出正确比例，不会加载完再跳。 */
+.photorow { margin-top: clamp(72px, 10vw, 140px); }
 .photorow__head {
   display: flex; justify-content: space-between; align-items: flex-end;
-  gap: 16px; margin-bottom: 18px;
+  gap: 16px; margin-bottom: 28px;
 }
 .photorow__head .muted { margin-bottom: 0; }
 .photorow__n { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
-.photorow__track {
-  display: grid; grid-auto-flow: column;
-  grid-auto-columns: minmax(220px, 30vw); gap: 14px;
-  overflow-x: auto; scroll-snap-type: x mandatory;
-  padding: 0 24px 14px;
-  scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+
+/* 按钮只是图片的放大入口，不是卡片：无底无框，光标提示可放大。
+   放大沿用全站共用的 data-zoom 委托处理器，禁用 JS 时图片照常可见。 */
+.photorow__zoom {
+  display: block; width: 100%; margin: 0; padding: 0;
+  background: none; border: 0; color: inherit; font: inherit;
+  text-align: left; cursor: zoom-in;
 }
-.photorow__track img {
-  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block;
-  border-radius: var(--radius); scroll-snap-align: start;
+
+/* 主图：整幅铺满、不裁。图注与正文同宽（max-width 对齐 .wrap）。 */
+.photorow__feature { margin: 0; }
+.photorow__feature figcaption,
+.photorow__shot figcaption {
+  max-width: 1180px; margin: 0 auto;
+  font-size: 0.86rem; color: var(--text-muted);
 }
-.photorow__track::-webkit-scrollbar { height: 4px; }
-.photorow__track::-webkit-scrollbar-thumb { background: var(--accent); }
+.photorow__feature figcaption { padding: 14px 24px 0; }
+.photorow__feature .photorow__zoom img {
+  width: 100%; height: auto; display: block;
+}
+/* 铜镍组只有一张竖构图主图，不限高会拉出近两屏的长图。
+   用 contain 把它**完整**收进 76svh 的满幅带：两侧留的是底色，
+   不是裁掉的画面，与 object-fit:cover 有本质区别。 */
+.photorow__feature--tall .photorow__zoom img {
+  max-height: 76svh; object-fit: contain; background: var(--bg-2);
+}
+
+/* 证据展开层：与站内「展开全文」同一套原生 details 写法。 */
+.photorow__evidence { margin-top: 34px; }
+.photorow__evidence > summary {
+  cursor: pointer; list-style: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.9rem; font-weight: 700; color: var(--accent);
+  border-bottom: 1px solid var(--accent); padding-bottom: 2px;
+}
+.photorow__evidence > summary::-webkit-details-marker { display: none; }
+.photorow__evidence[open] > summary { margin-bottom: 26px; }
+
+/* 多栏自然流：图片按原比例排，竖图占一栏不再被拉宽或统一高度裁切。
+   figure 无边框无底色，不是卡片阵列。 */
+.photorow__grid { column-count: 3; column-gap: 18px; }
+.photorow__shot { margin: 0 0 22px; break-inside: avoid; }
+.photorow__shot figcaption { padding: 10px 0 0; font-size: 0.8rem; }
+.photorow__shot .photorow__zoom img {
+  width: 100%; height: auto; display: block; border-radius: var(--radius);
+}
 
 /* 加工能力：无卡片，靠文字分组与留白 */
 .caps { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 34px; }
@@ -389,6 +429,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 /* ---------------------------------------------------------------- 响应式 */
 @media (max-width: 860px) {
   .bar { padding: 12px 18px; }
+  /* 证据展开层收成两栏：竖图仍有合适列宽，不做等大缩略图 */
+  .photorow__grid { column-count: 2; }
   .bar__nav {
     position: fixed; top: 0; right: 0; bottom: 0; width: min(78vw, 320px);
     flex-direction: column; gap: 0;
@@ -409,9 +451,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 560px) {
   .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mats { gap: 20px; }
-  /* 小屏一张占大半屏宽，滑动时仍能看出"还有下一张" */
-  .photorow__track { grid-auto-columns: minmax(220px, 72vw); }
+  .photorow__grid { column-count: 1; }
   .photorow__head { align-items: flex-start; flex-direction: column; }
+  .photorow__feature--tall .photorow__zoom img { max-height: 68svh; }
 }
 
 @media print {
