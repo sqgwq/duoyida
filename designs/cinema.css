@@ -302,10 +302,16 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .foot-note { margin-top: 18px; font-size: 0.83rem; color: var(--text-muted); border-left: 2px solid var(--accent); padding-left: 12px; }
 .k3 { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; font-weight: 700; }
 
-.duo { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+/* 窄屏不准横向滚动：auto-fit 的 minmax(Npx, 1fr) 把轨道最小值钉死在 Npx，
+   容器比 Npx 窄时就顶出横向滚动条 —— 320px 视口减两侧 24px 内边距只剩 272px，
+   而 .duo 要 300px，实测 scrollWidth 324 > clientWidth 320。
+   min(Npx, 100%) 在宽视口恒等于 Npx（桌面零变化），窄视口自动退到容器宽。
+   下面所有 auto-fit 网格统一这个写法，不靠逐个断点打补丁；
+   .insrow 是 overflow-x:auto 的横排卡片，用 grid-auto-columns 定宽是有意为之，不在此列。 */
+.duo { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 
 /* 材料墙：大字排铺 */
-.mats { display: grid; gap: 26px 40px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.mats { display: grid; gap: 26px 40px; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
 .mat__f { font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
 .mat__g { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
 .mat__g span {
@@ -316,7 +322,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 
 .strip {
   margin-top: 48px; display: grid; gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
 }
 .strip img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-radius: var(--radius); }
 
@@ -432,12 +438,12 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   color: var(--accent); border-color: var(--accent);
 }
 /* 加工能力：无卡片，靠文字分组与留白 */
-.caps { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 34px; }
+.caps { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); margin-bottom: 34px; }
 .cap h3 { font-size: 1.12rem; margin-bottom: 8px; }
 .cap p { color: var(--text-muted); font-size: 0.92rem; }
 
 /* 资质 */
-.certs { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin-bottom: 44px; }
+.certs { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); margin-bottom: 44px; }
 .cert {
   display: block; width: 100%; padding: 0; text-align: left; cursor: zoom-in;
   background: var(--surface); border: 1px solid var(--border);
@@ -449,7 +455,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 
 .logos {
   display: grid; gap: 10px; margin-top: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
 }
 .logos img {
   height: 38px; width: auto; margin: 0 auto; object-fit: contain;
@@ -457,13 +463,13 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* 文化 */
-.vals { margin-top: 40px; display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.vals { margin-top: 40px; display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
 .vals > div { padding: 18px 0; border-top: 1px solid var(--border); }
 .vals b { display: block; font-size: 1.05rem; }
 .vals span { color: var(--text-muted); font-size: 0.9rem; }
 
 /* 流程 */
-.flow { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.flow { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
 .flow li { padding: 20px 20px 20px 0; border-top: 2px solid var(--accent); }
 .flow__n { font-size: 0.78rem; font-weight: 800; color: var(--accent); letter-spacing: 0.1em; }
 .flow li b { display: block; margin-top: 6px; font-size: 1.08rem; }
@@ -479,7 +485,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 
 /* 联系 */
 .close { background: var(--bg-2); }
-.contact { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 30px; }
+.contact { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); margin-top: 30px; }
 .contact > div { display: flex; flex-direction: column; gap: 6px; }
 .contact b { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
 .contact span, .contact a { font-size: clamp(1.05rem, 2vw, 1.35rem); font-weight: 700; word-break: break-all; }

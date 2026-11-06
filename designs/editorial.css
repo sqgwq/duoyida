@@ -170,8 +170,8 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
   border-left: 2px solid var(--accent); padding-left: 12px;
 }
 
-/* 优势网格 */
-.advgrid { margin-top: var(--space-lg); display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+/* 优势网格。px 下限统一包 min(Npx, 100%)，理由见 cinema.css 的 4.25 注释。 */
+.advgrid { margin-top: var(--space-lg); display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); }
 .advgrid li { padding: 18px 20px 18px 0; border-top: 1px solid var(--border); }
 .advgrid span { font-size: 0.74rem; font-weight: 700; color: var(--accent); }
 .advgrid b { display: block; margin-top: 5px; font-size: 1.02rem; }
@@ -185,7 +185,7 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 .mtable .em { font-weight: 700; }
 .mtable .dim { color: var(--text-muted); font-size: 0.88rem; }
 
-.plist { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.plist { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
 .plist li { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--border); }
 .plist b { display: block; font-size: 0.98rem; }
 .plist span { color: var(--text-muted); font-size: 0.86rem; }
@@ -193,13 +193,13 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 /* 图版页 */
 .plates { padding: var(--space-lg) 0 var(--space-xl); background: var(--surface); }
 .plates__kick { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
-.pgrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.pgrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
 .pl { margin: 0; }
 .pl img { aspect-ratio: 1 / 1; object-fit: cover; width: 100%; }
 .pl figcaption { margin-top: 7px; font-size: 0.76rem; color: var(--text-muted); }
 
 /* 资质 */
-.certs { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.certs { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
 .cert {
   display: block; width: 100%; padding: 0; cursor: zoom-in; text-align: left;
   background: var(--surface); border: 1px solid var(--border); font: inherit; color: inherit;
@@ -208,7 +208,7 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 .cert img { aspect-ratio: 4 / 3; object-fit: contain; width: 100%; background: var(--bg-2); }
 .cert__cap { display: block; padding: 9px 12px; font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid var(--border); }
 
-.logos { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.logos { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); }
 .logo { margin: 0; padding: 12px 8px; background: #fff; border: 1px solid var(--border); text-align: center; }
 .logo img { height: 32px; width: auto; margin: 0 auto; object-fit: contain; }
 .logo figcaption { margin-top: 7px; font-size: 0.68rem; color: #4a5665; word-break: keep-all; }
@@ -221,13 +221,13 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 }
 .pull__a { margin-top: 12px; font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
 
-.vgrid { margin-top: var(--space-lg); display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.vgrid { margin-top: var(--space-lg); display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
 .vgrid li { padding: 16px 18px 16px 0; border-top: 1px solid var(--border); }
 .vgrid b { display: block; font-size: 1rem; }
 .vgrid span { color: var(--text-muted); font-size: 0.86rem; }
 
 /* 流程 */
-.steps { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.steps { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
 .steps li { padding: 18px 20px 18px 0; border-top: 2px solid var(--text); }
 .steps__n { font-size: 0.76rem; font-weight: 700; color: var(--accent); }
 .steps li b { display: block; margin-top: 5px; font-size: 1.04rem; }
@@ -240,7 +240,7 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 .mapfig figcaption { padding: 9px 12px; font-size: 0.76rem; color: var(--text-muted); border-top: 1px solid var(--border); }
 
 /* 联系 */
-.cblock { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: var(--space-md); }
+.cblock { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); margin-top: var(--space-md); }
 .cblock > div { display: flex; flex-direction: column; gap: 7px; }
 .cblock span { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
 .cblock b, .cblock a { font-family: var(--serif); font-size: clamp(1.05rem, 2vw, 1.3rem); font-weight: 700; color: var(--text); word-break: break-all; }

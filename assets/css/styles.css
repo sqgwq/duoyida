@@ -360,7 +360,7 @@ figure { margin: 0; }
 .hero__stats {
   margin-top: var(--space-xl);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
   gap: var(--space-md);
   border-top: 1px solid var(--border-invert);
   padding-top: var(--space-md);
@@ -381,18 +381,20 @@ figure { margin: 0; }
 }
 
 /* ---------------------------------------------------------------- 卡片 */
+/* 本文件所有 auto-fit/auto-fill 网格的 px 下限统一包 min(Npx, 100%)：
+   裸 Npx 是轨道下限，容器比 N 窄时会把整页顶出横向滚动条（断言 4.25）。 */
 .grid { display: grid; gap: var(--space-md); }
-.grid--2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 /* 用 auto-fit + minmax 时，条目数不能被列数整除就会留下"孤儿卡"
    （实测加工设备 6 项排成 3+1、产品卡 6 项排成 4+2，末行孤零零一张）。
    下面两组各自声明**能被整除的列数**，让末行填满：
      4 项 → 2 列（2+2）；3 项 → 3 列；6 项 → 3 列（3+3）。 */
-.grid--3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
 /* 6 项的格子固定三列，避免 4 列时出现 4+2 */
 .grid--fill-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* 4 项的格子固定两列，避免 3 列时出现 3+1 */
 .grid--fill-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.grid--4 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.grid--4 { grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
 
 @media (max-width: 900px) {
   .grid--fill-6, .grid--fill-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -468,7 +470,7 @@ figure { margin: 0; }
 .gallery {
   display: grid;
   gap: var(--space-sm);
-  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(232px, 100%), 1fr));
 }
 
 .shot {
@@ -561,7 +563,7 @@ figure { margin: 0; }
 /* ---------------------------------------------------------------- 流程 */
 .flow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
   gap: var(--space-md);
   counter-reset: flow;
 }
@@ -587,7 +589,7 @@ figure { margin: 0; }
 .flow__text { margin-top: var(--space-2xs); font-size: var(--fs-sm); color: var(--text-muted); }
 
 /* ---------------------------------------------------------------- 文化 */
-.culture__pair { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.culture__pair { display: grid; gap: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); }
 
 .culture__block {
   position: relative;
@@ -615,7 +617,7 @@ figure { margin: 0; }
   font-weight: 600;
 }
 
-.values { display: grid; gap: var(--space-sm); grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.values { display: grid; gap: var(--space-sm); grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); }
 
 .value {
   padding: var(--space-md);
@@ -799,7 +801,7 @@ figure { margin: 0; }
 }
 
 /* ---------------------------------------------------------------- 联系 */
-.contact { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.contact { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
 
 .contact__item { display: flex; gap: var(--space-sm); }
 .contact__ico {
@@ -1021,7 +1023,7 @@ figure { margin: 0; }
 }
 
 @media (max-width: 560px) {
-  .gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .gallery { grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); }
   .settings { right: var(--space-sm); bottom: var(--space-sm); }
 }
 
