@@ -1022,16 +1022,9 @@
       </div>
   </section>
 
-  <!-- 关于 -->
+  <!-- 关于。厂区大门图带已移到页面底部（2026-11-06 需求方指定回到底部），
+       这里只留正文，不再用一张满幅图给区块开场。图源与处理链见 out/交付说明.md。 -->
   <section class="block block--dark" id="about">
-    <!-- 厂区大门图带（2026-11-04 需求方指定放 About 顶部）。
-         来源如实记录：AI 生成图（豆包底图 → 换英文为执照名 → 抹水印），
-         处理链与用途见 out/交付说明.md；门头英文与 facts.name_en 同源，
-         都取营业执照版，避免页面图文两套英文名。 -->
-    <figure class="about__media">
-      <img src="../assets/img/about/factory-gate.jpg" alt="无锡多易达厂区大门"
-           width="1400" height="934" loading="lazy" decoding="async">
-    </figure>
     <div class="wrap">
       <p class="kick">About</p>
       <h2 class="big">关于我们</h2>
@@ -1162,9 +1155,19 @@
     </div>
   </section>
 
-
-
-
+  <!-- 厂区大门：页面底部的收尾图带（2026-11-06 需求方指定回到底部）。
+       清晰度：1536×1024 WebP 由 <picture> 优先投递（从无损底图直出，不插值
+       放大），CSS 把显示宽度也锁到 1536px，1920 屏是 1:1 而不是把 1400
+       放大 1.37 倍；1400×934 渐进式 JPEG 兜底，尺寸属性取自 gateDims。
+       图源如实记录：AI 生成图（豆包底图 → 换英文为执照名 → 抹水印），
+       处理链见 scripts/make_gate_webp.py 与 out/交付说明.md。 -->
+  <figure class="gateband" id="gate">
+    <picture>
+      <source type="image/webp" srcset="../assets/img/about/factory-gate.webp">
+      <img src="../assets/img/about/factory-gate.jpg" alt="无锡多易达厂区大门"
+           width="1400" height="934" loading="lazy" decoding="async">
+    </picture>
+  </figure>
 
 </main>
 

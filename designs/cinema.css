@@ -234,21 +234,26 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------------------------------------------------------------- 区块 */
-/* 区块纵向节奏只定义一次（--sec-pad），#about 的图带/文字都继承它，
+/* 区块纵向节奏只定义一次（--sec-pad），所有区块都继承它，
    避免"改一处忘一处"的内边距漂移。 */
 .block { --sec-pad: clamp(64px, 9vw, 120px); padding: var(--sec-pad) 0; background: var(--bg); }
 .block--dark { background: var(--bg-2); }
 
-/* About 顶部的厂门图带：贴住区块顶（抵消 .block 的上内边距），
-   图带下方由 .wrap 的 padding-top 恢复文字的呼吸空间。
-   全部规则锁死在 #about 作用域内，其他区块零影响。
-   为什么不再定高 + cover：厂门图是 1600×1067 横图，塞进 240~460px 高的
-   容器会被 cover 裁得只剩中间一条，门头与地面全丢（需求方 2026-11-04
-   反馈「没展示全」）。改按原图比例自适应，整张完整可见。 */
-#about { padding-top: 0; }
-#about .wrap { padding-top: var(--sec-pad); }
-.about__media { margin: 0; overflow: hidden; }
-.about__media img { width: 100%; height: auto; object-fit: contain; display: block; }
+/* 厂区大门收尾图带：2026-11-06 从 About 顶部移到页面底部（#contact 之后）。
+   为什么不定高 + cover：1600×1067 横图塞进 240~460px 容器会被裁得只剩
+   中间一条，门头与地面全丢（需求方 2026-11-04 反馈「没展示全」）。
+   为什么限宽 1536px 并居中：图带原是 width:100%，1920 宽屏下把 1400px
+   的旧 JPEG 硬放大 1.37 倍，门头字与窗格发糊（2026-11-06 反馈「像素太低」）。
+   AI 生成底图的真实细节上限就是 1536×1024，插值放大到 2200 实测并不能增加
+   细节（门头梯度 4.34 → 4.25）。所以改为**不放大**：从无损底图直出
+   1536×1024 WebP，显示宽度也锁到 1536px，1920 屏是 1:1，超宽屏也不拉伸。
+   height:auto + contain 保证整张完整可见，永不裁切。 */
+.gateband { margin: 0; background: var(--bg-2); }
+.gateband picture { display: block; }
+.gateband img {
+  width: 100%; max-width: 1536px; height: auto;
+  object-fit: contain; display: block; margin-inline: auto;
+}
 
 .kick {
   font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
