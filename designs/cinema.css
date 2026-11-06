@@ -17,6 +17,17 @@
   --accent: #f0b429;            /* 琥珀，在近黑上跳得出来又不刺眼 */
   --text-on-brand: #0d1013;
 
+  /* 顶栏对比度令牌（2026-11-06）。原来顶栏只在**滚动后**才有底色，首屏
+     直接浮在照片上：这张首屏图右上角恰好是一面亮灰墙，--text-muted 的
+     #a7b0ba 与墙面实测对比度 1.03:1 —— 菜单整排消失，页面不报错。
+     修法不是「把字调亮一点」（换个亮底图又会翻车），而是让**顶栏自带
+     近不透明底色**，文字背后的亮度与照片无关。最坏情况按底图纯白算：
+     0.90 的深色合成后仍近黑，对比度有确定下限。 */
+  --bar-bg: rgba(9, 12, 16, 0.90);
+  --bar-bg-scrolled: rgba(9, 12, 16, 0.96);
+  --bar-ink: #f4f7fa;
+  --bar-ink-sub: #d2dae3;
+
   --radius: 2px;
   --radius-sm: 2px;
   --space-sm: 12px;
@@ -55,30 +66,46 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
 /* ---------------------------------------------------------------- 顶栏 */
-/* 沉浸式：只留 logo 与菜单，半透明浮在图上 */
+/* 沉浸式：只留 logo 与菜单。但「沉浸」不等于「把可读性交给照片」：
+   首屏固定顶栏必须自带近不透明底色，否则文字背后是暗钢卷还是亮墙
+   全看运气。2026-11-06 实测导航在亮墙上只有 1.03:1，整排看不见。
+
+   **不要用 backdrop-filter**：带 filter / backdrop-filter 的元素会成为
+   position:fixed 后代的包含块，移动端的离屏菜单 .bar__nav 会被钉在
+   60px 高的顶栏里而不是铺满视口。原来只有「滚动后」那一态加了模糊，
+   等于埋了一个只在移动端滚动后打开菜单才触发的隐性 bug，这里一并去掉。
+   底色够深就不需要模糊来保证对比度。 */
 .bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; gap: 24px;
   padding: 16px 24px;
-  transition: background .3s ease, backdrop-filter .3s ease;
+  background: var(--bar-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background .3s ease;
+}
+/* 下沿柔化：一条硬边会把首屏照片切断，渐变让顶栏自然融进画面 */
+.bar::after {
+  content: ""; position: absolute; top: 100%; left: 0; right: 0; height: 26px;
+  background: linear-gradient(to bottom, rgba(9, 12, 16, 0.55), rgba(9, 12, 16, 0));
+  pointer-events: none;
 }
 .bar[data-scrolled="1"] {
-  background: rgba(13, 16, 19, 0.72);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  background: var(--bar-bg-scrolled);
+  border-bottom-color: rgba(255, 255, 255, 0.18);
 }
 .bar__logo { display: flex; flex-direction: column; line-height: 1.2; }
-.bar__cn { font-weight: 700; font-size: 0.98rem; }
+.bar__cn { font-weight: 700; font-size: 1.06rem; color: var(--bar-ink); }
 .bar__en {
-  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-muted);
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--bar-ink-sub);
 }
 .bar__nav { margin-left: auto; display: flex; gap: 22px; }
 .bar__nav a {
-  font-size: 0.86rem; color: var(--text-muted);
+  font-size: 0.92rem; font-weight: 600; color: var(--bar-ink);
   transition: color .2s ease;
 }
-.bar__nav a:hover { color: var(--text); }
+.bar__nav a:hover { color: var(--accent); }
 .bar__burger {
   display: none; margin-left: auto;
   width: 44px; height: 44px; place-items: center;
@@ -109,12 +136,22 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   );
 }
 .open__in { position: relative; z-index: 1; padding: 0 24px 9vh; max-width: 1180px; margin: 0 auto; width: 100%; }
+/* 首屏小字：对比度本来够（实测 5.3～7.0:1），问题在**识别度** ——
+   11.8px 的琥珀 eyebrow 与 16.3px 的灰牌号行在满幅照片上太轻，扫一眼
+   会直接略过。加一档字号 / 字重、把牌号从 muted 提到近白，并给两层极淡
+   阴影兜底：照片亮部刚好落在字下时也不至于糊掉。不动大标题与留白节奏。 */
 .open__kick {
-  font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 18px;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
 }
 .open__h { font-size: var(--fs-hero); max-width: 16em; }
-.open__sub { margin-top: 20px; color: var(--text-muted); font-size: 1.02rem; max-width: 46ch; }
+.open__sub {
+  margin-top: 20px; color: #e0e6ec; font-size: 1.06rem; font-weight: 600;
+  letter-spacing: 0.01em; max-width: 46ch;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+}
 .open__cta {
   display: inline-flex; align-items: center; gap: 10px;
   margin-top: 30px; padding: 13px 22px;
@@ -515,6 +552,15 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   .photorow__head { align-items: flex-start; flex-direction: column; }
   /* 舞台高度已在 860px 断点按 min(68svh, 58vw) 收敛，这里只调控件尺寸；
      不再为竖图单开 --tall 分支，避免桌面/小屏两套口径漂移。 */
+
+  /* 小屏字距：宽字距是大屏的余裕，不是可读性。390px 实测英文名被挤成
+     「…TECHNOLOGY / CO.,LTD.」、eyebrow 被挤成「SINCE / 2017」两处孤字，
+     而 eyebrow 离单行只差约 2px。这里**只收紧装饰性 letter-spacing**，
+     字号 / 字重 / 近白颜色一律不动（4.23 刚提上来的识别度不能被抵消）；
+     再加 text-wrap: balance 兜底 320px 等极窄视口：真要换行就均衡分成两行，
+     不许出现 3 个字的孤行。 */
+  .bar__en { letter-spacing: 0.04em; text-wrap: balance; }
+  .open__kick { letter-spacing: 0.10em; text-wrap: balance; }
 }
 
 @media print {
