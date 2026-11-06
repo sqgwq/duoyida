@@ -288,7 +288,20 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
    max-width:100% + height:auto + max-height:68svh，按落盘文件真实比例
    整张可见；width/height 属性让浏览器加载前就留出正确比例，不会加载完再跳。
    2026-11-05 判据修订：满幅只属于氛围底图，实拍证据不铺满（见 CONTEXT.md）。 */
-.photorow { margin-top: clamp(72px, 10vw, 140px); }
+/* 分类导航：组别和张数一眼可见，锚点直达，不靠往下滚去猜。 */
+.photocats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.photocats a {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px;
+  font-size: 0.88rem; color: var(--text-muted);
+}
+.photocats a:hover, .photocats a:focus-visible { color: var(--accent); border-color: var(--accent); }
+.photocats b { font-size: 0.76rem; color: var(--accent); }
+
+.photorow { margin-top: clamp(72px, 10vw, 140px); scroll-margin-top: 84px; }
+/* 第一组紧跟分类导航，再叠 140px 会把首张图连同图注整块推到折线以下。
+   组与组之间仍保留大气的呼吸感，只收紧「导航 → 第一组」这一段。 */
+#photos > .wrap + .photorow { margin-top: clamp(40px, 5vw, 72px); }
 .photorow__head {
   display: flex; justify-content: space-between; align-items: flex-end;
   gap: 16px; margin-bottom: 28px;
@@ -299,57 +312,83 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 /* 按钮只是图片的放大入口，不是卡片：无底无框，光标提示可放大。
    放大沿用全站共用的 data-zoom 委托处理器，禁用 JS 时图片照常可见。 */
 .photorow__zoom {
-  display: block; width: 100%; margin: 0; padding: 0;
+  display: grid; align-content: center; justify-items: start;
+  width: 100%; height: 68svh; margin: 0; padding: 0;
   background: none; border: 0; color: inherit; font: inherit;
   text-align: left; cursor: zoom-in;
 }
 
-/* 主图：与正文同宽、限高、不铺满（2026-11-05 反馈「不用铺满」）。
-   判据修订：实拍证据不是氛围底图 —— 氛围底图可以满幅铺底、也允许为版面裁切；
-   实拍证据要被逐张看清，还要和图注、展开入口同处一屏，所以主图收进 .wrap
-   的 1180px 内容宽、左边缘与组标题对齐，高度不超过 68svh，右侧留大片空白。
-   width:auto + max-width:100% + height:auto 让浏览器按落盘比例缩放，一整张都在；
-   object-fit:contain 是双保险，不产生 cover 那种裁切。竖图不再单开规则。
+/* 走马灯舞台：与正文同宽、限高、不铺满（判据 4.18）。
+   满幅只属于氛围底图；实拍证据收在 1180px 内容宽内，左对齐留白。
+   2026-11-06：舞台里放的是横向轮播，不再是「一张主图 + 折叠证据层」。 */
+.photorow__feature { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
-   2026-11-05 夜补：只写 width:auto 时，**懒加载且尚未解码**的 img 没有内在尺寸，
-   Chrome 把盒子算成 0×0；六张主图陆续到达会让 #photos 突然长高约 2300px，
+/* 纯 CSS 轮播：scroll-snap 把每条 slide 对齐到起点；锚点 href="#slide-id"
+   由浏览器自己滚动最近的横向滚动容器，不需要一行 JS。
+   tabindex="0" 让键盘方向键也能翻，触摸原生可滑。 */
+.photorow__reel {
+  display: flex; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.photorow__reel::-webkit-scrollbar { height: 6px; }
+.photorow__reel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+/* 同一行的 flex item 会 stretch 到「最高那条 slide」的高度。若各张图的
+   高度不一，矮图那页的图注/控件/圆点之间就会出现一大截死白（1440px
+   实测约 120px）。解法不是把图注压到底部（那只是把空白挪到图与图注
+   之间），而是给每条 slide 一个**等高舞台**：图片在舞台内居中、按原比例
+   contain 显示，于是六组任意一张的图注、翻页控件、圆点都落在同一高度。 */
+.photorow__shot {
+  flex: 0 0 100%; min-width: 0; margin: 0;
+  scroll-snap-align: start; scroll-snap-stop: always;
+}
+.photorow__shot:target .photorow__idx { color: var(--accent); }
+
+/* 图片：按落盘比例整张显示，不裁切。
+   2026-11-05 夜补：只写 width:auto 时，**懒加载且尚未解码**的 img 没有内在
+   尺寸，Chrome 把盒子算成 0×0；图陆续到达会让 #photos 突然长高约 2300px，
    连带把下面的 About 推走（真浏览器验证「厂门图完整展示」因此报 loaded:false）。
    min-width 用每张图自己的落盘宽度 --ph-w 给出确定下限，配合 img 上的
    width/height 属性，浏览器在解码前就能按原比例留好位置；限高夹紧后盒子会
-   比画面略宽，故 object-position 左对齐，画面仍贴组标题左边缘、不居中偏移。 */
-.photorow__feature { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-.photorow__feature figcaption,
+   比画面略宽，故 object-position 左对齐，画面仍贴组标题左边缘、不居中偏移。
+   2026-11-06：外层 .photorow__zoom 已是等高舞台，图片在里面垂直居中、
+   左对齐，contain 保证任何构图都不裁切；max-height 仍守 68svh 上限。 */
 .photorow__shot figcaption {
-  max-width: 1180px; margin: 0 auto;
+  max-width: 1180px; margin: 0;
   font-size: 0.86rem; color: var(--text-muted);
+  padding: 14px 0 0;
 }
-.photorow__feature figcaption { padding: 14px 0 0; }
+/* 舞台等高，图注直接跟在舞台下方即可，不需要 margin-top:auto 去补空白。 */
 .photorow__feature .photorow__zoom img {
   width: auto; max-width: 100%; height: auto; max-height: 68svh;
   min-width: min(100%, var(--ph-w, 900px)); object-position: left center;
   object-fit: contain; display: block;
 }
 
-/* 证据展开层：与站内「展开全文」同一套原生 details 写法。 */
-.photorow__evidence { margin-top: 34px; }
-.photorow__evidence > summary {
-  cursor: pointer; list-style: none;
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.9rem; font-weight: 700; color: var(--accent);
-  border-bottom: 1px solid var(--accent); padding-bottom: 2px;
+/* 每条 slide 自带上一张 / 下一张与 n/N 计数；首尾环绕。
+   不做自动轮播：会抢阅读节奏、与 prefers-reduced-motion 冲突，
+   没有 JS 时也无法在读者打断后停下。 */
+.photorow__ctl { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.photorow__arrow {
+  display: inline-grid; place-items: center; width: 34px; height: 34px;
+  border: 1px solid var(--border); border-radius: 50%;
+  font-size: 1rem; color: var(--text);
 }
-.photorow__evidence > summary::-webkit-details-marker { display: none; }
-.photorow__evidence[open] > summary { margin-bottom: 26px; }
-
-/* 多栏自然流：图片按原比例排，竖图占一栏不再被拉宽或统一高度裁切。
-   figure 无边框无底色，不是卡片阵列。 */
-.photorow__grid { column-count: 3; column-gap: 18px; }
-.photorow__shot { margin: 0 0 22px; break-inside: avoid; }
-.photorow__shot figcaption { padding: 10px 0 0; font-size: 0.8rem; }
-.photorow__shot .photorow__zoom img {
-  width: 100%; height: auto; display: block; border-radius: var(--radius);
+.photorow__arrow:hover, .photorow__arrow:focus-visible {
+  color: var(--accent); border-color: var(--accent);
 }
+.photorow__idx { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.08em; }
 
+/* 组下圆点：直达本组任意一张，44 张默认全部可达。 */
+.photorow__dots { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.photorow__dots a {
+  display: inline-grid; place-items: center; min-width: 26px; height: 26px;
+  padding: 0 5px; border-radius: 6px; border: 1px solid transparent;
+  font-size: 0.72rem; color: var(--text-muted);
+}
+.photorow__dots a:hover, .photorow__dots a:focus-visible {
+  color: var(--accent); border-color: var(--accent);
+}
 /* 加工能力：无卡片，靠文字分组与留白 */
 .caps { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 34px; }
 .cap h3 { font-size: 1.12rem; margin-bottom: 8px; }
@@ -427,6 +466,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   transition: opacity 900ms var(--ease), transform 900ms var(--ease);
 }
 @media (prefers-reduced-motion: reduce) {
+  .photorow__reel { scroll-behavior: auto; }
   .js-ready [data-reveal] { opacity: 1; transform: none; }
   .open__bg img, .reel__bg img, .open__cta span { animation: none; }
   /* 跑马灯是无限循环动画：skill §6.B（非协商条款）要求在
@@ -438,8 +478,13 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 /* ---------------------------------------------------------------- 响应式 */
 @media (max-width: 860px) {
   .bar { padding: 12px 18px; }
-  /* 证据展开层收成两栏：竖图仍有合适列宽，不做等大缩略图 */
-  .photorow__grid { column-count: 2; }
+  /* 舞台随视口宽度收敛：桌面上 68svh 与 58vw 取小后仍是 68svh，
+     小屏则按宽度走，避免 342px 宽的横图被塞进 574px 高的空舞台。
+     图片的 max-height 必须同步，否则 68svh 会让它溢出舞台。 */
+  .photorow__zoom { height: min(68svh, 58vw); }
+  .photorow__feature .photorow__zoom img { max-height: min(68svh, 58vw); }
+  .photorow__arrow { width: 40px; height: 40px; }
+  .photorow__dots a { min-width: 30px; height: 30px; }
   .bar__nav {
     position: fixed; top: 0; right: 0; bottom: 0; width: min(78vw, 320px);
     flex-direction: column; gap: 0;
@@ -460,10 +505,11 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 560px) {
   .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mats { gap: 20px; }
-  .photorow__grid { column-count: 1; }
+  .photorow__arrow { width: 44px; height: 44px; }
+  .photorow__ctl { gap: 18px; }
   .photorow__head { align-items: flex-start; flex-direction: column; }
-  /* 小屏与桌面同一口径：桌面规则里的 68svh 会自动继承，
-     不再为 --tall 单开一条（390px 时图片先受 max-width 约束）。 */
+  /* 舞台高度已在 860px 断点按 min(68svh, 58vw) 收敛，这里只调控件尺寸；
+     不再为竖图单开 --tall 分支，避免桌面/小屏两套口径漂移。 */
 }
 
 @media print {
