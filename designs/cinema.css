@@ -1,32 +1,40 @@
 /* ============================================================================
  * 设计 B · 分屏沉浸 —— 样式
  *
- * 视觉语言：影片感。近黑底、满幅照片、超大字、几乎无描边。
+ * 视觉语言：影片感。亮底、满幅照片、超大字、几乎无描边。
  * 与设计 A 的根本区别：A 是"读"的（表格、发丝线、等宽字），
  * B 是"看"的（满屏图、巨字、极简文字量）。两者不能互相推导出来。
+ *
+ * 2026-11-13 需求方照参考图要求整体调淡：白/浅灰底 + 橙色点缀。
+ * 满幅照片节（.open / .reel）仍保留深色遮罩，那里有专门的 --on-photo
+ * 文字色；亮底与照片底各用一套，不靠同一个 --text 走遍全页。
  * ========================================================================== */
 
 :root {
-  --bg: #0d1013;
-  --bg-2: #14181d;
-  --surface: rgba(255, 255, 255, 0.06);
-  --text: #f2f4f6;
-  --text-muted: #a7b0ba;
-  --border: rgba(255, 255, 255, 0.14);
-  --brand: #e8edf2;
-  --accent: #f0b429;            /* 琥珀，在近黑上跳得出来又不刺眼 */
-  --text-on-brand: #0d1013;
+  --bg: #f5f6f8;
+  --bg-2: #ffffff;
+  --surface: rgba(0, 0, 0, 0.03);
+  --text: #16191d;
+  --text-muted: #5d6672;
+  --border: rgba(0, 0, 0, 0.12);
+  --brand: #f26a1b;
+  --accent: #f26a1b;
+  /* 橙底上白字只有 3.1:1，深字 5.8:1 —— 按钮色值服从对比度，不服从直觉。 */
+  --text-on-brand: #16191d;
+  /* 亮底上做正文色时的深橙：#f26a1b 直接当小字会掉到 2.8:1。 */
+  --accent-ink: #a63f0c;
+  /* 只给"仍压深色照片遮罩"的文字用，避免亮色主题下白字落到白底上。 */
+  --on-photo: #ffffff;
+  --on-photo-muted: #e6ebf0;
 
-  /* 顶栏对比度令牌（2026-11-06）。原来顶栏只在**滚动后**才有底色，首屏
-     直接浮在照片上：这张首屏图右上角恰好是一面亮灰墙，--text-muted 的
-     #a7b0ba 与墙面实测对比度 1.03:1 —— 菜单整排消失，页面不报错。
-     修法不是「把字调亮一点」（换个亮底图又会翻车），而是让**顶栏自带
-     近不透明底色**，文字背后的亮度与照片无关。最坏情况按底图纯白算：
-     0.90 的深色合成后仍近黑，对比度有确定下限。 */
-  --bar-bg: rgba(9, 12, 16, 0.90);
-  --bar-bg-scrolled: rgba(9, 12, 16, 0.96);
-  --bar-ink: #f4f7fa;
-  --bar-ink-sub: #d2dae3;
+  /* 顶栏对比度令牌（2026-11-06 引入，11-13 随亮色主题改向）。顶栏自带
+     近不透明**亮**底，文字背后的亮度与照片无关。最坏情况按底图纯黑算：
+     0.94 的白色合成后近白，深字对比度仍在 9:1 以上；--bar-ink-sub 因此
+     不能照搬建议的 #4c5561（对纯黑合成底只有 6.6:1），须压到 #343a42。 */
+  --bar-bg: rgba(255, 255, 255, 0.94);
+  --bar-bg-scrolled: rgba(255, 255, 255, 0.98);
+  --bar-ink: #16191d;
+  --bar-ink-sub: #343a42;
 
   --radius: 2px;
   --radius-sm: 2px;
@@ -74,24 +82,25 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
    position:fixed 后代的包含块，移动端的离屏菜单 .bar__nav 会被钉在
    60px 高的顶栏里而不是铺满视口。原来只有「滚动后」那一态加了模糊，
    等于埋了一个只在移动端滚动后打开菜单才触发的隐性 bug，这里一并去掉。
-   底色够深就不需要模糊来保证对比度。 */
+   底色够不透明就不需要模糊来保证对比度；这条对 .bar__nav 同样适用。 */
 .bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; gap: 24px;
   padding: 16px 24px;
   background: var(--bar-bg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid var(--border);
   transition: background .3s ease;
 }
-/* 下沿柔化：一条硬边会把首屏照片切断，渐变让顶栏自然融进画面 */
+/* 下沿柔化：一条硬边会把首屏照片切断，渐变让顶栏自然融进画面。
+   亮底主题下这条渐变得跟着变浅，否则顶栏下方会挂一条黑影。 */
 .bar::after {
   content: ""; position: absolute; top: 100%; left: 0; right: 0; height: 26px;
-  background: linear-gradient(to bottom, rgba(9, 12, 16, 0.55), rgba(9, 12, 16, 0));
+  background: linear-gradient(to bottom, rgba(245, 246, 248, 0.85), rgba(245, 246, 248, 0));
   pointer-events: none;
 }
 .bar[data-scrolled="1"] {
   background: var(--bar-bg-scrolled);
-  border-bottom-color: rgba(255, 255, 255, 0.18);
+  border-bottom-color: rgba(0, 0, 0, 0.18);
 }
 .bar__logo { display: flex; flex-direction: column; line-height: 1.2; }
 .bar__cn { font-weight: 700; font-size: 1.06rem; color: var(--bar-ink); }
@@ -105,11 +114,11 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   font-size: 0.92rem; font-weight: 600; color: var(--bar-ink);
   transition: color .2s ease;
 }
-.bar__nav a:hover { color: var(--accent); }
+.bar__nav a:hover { color: var(--accent-ink); }
 .bar__burger {
   display: none; margin-left: auto;
   width: 44px; height: 44px; place-items: center;
-  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   color: var(--text); border-radius: var(--radius); cursor: pointer;
 }
 
@@ -126,6 +135,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 @keyframes slowZoom { from { transform: scale(1.1); } to { transform: scale(1); } }
 
+/* 满幅照片节保留深色遮罩：它是"影片"语言的底色，不跟页面一起提亮。
+   这里的文字统一走 --on-photo，不能继承已经变深的 --text（会变成黑字压黑图）。 */
 .open__veil, .reel__veil {
   position: absolute; inset: 0;
   background: linear-gradient(
@@ -137,18 +148,18 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 .open__in { position: relative; z-index: 1; padding: 0 24px 9vh; max-width: 1180px; margin: 0 auto; width: 100%; }
 /* 首屏小字：对比度本来够（实测 5.3～7.0:1），问题在**识别度** ——
-   11.8px 的琥珀 eyebrow 与 16.3px 的灰牌号行在满幅照片上太轻，扫一眼
-   会直接略过。加一档字号 / 字重、把牌号从 muted 提到近白，并给两层极淡
-   阴影兜底：照片亮部刚好落在字下时也不至于糊掉。不动大标题与留白节奏。 */
+   11.8px 的琥珀 eyebrow 与 16.3px 的浅灰牌号行在满幅照片上太轻，扫一眼
+   会直接略过。加一档字号 / 字重、把牌号提到近白，并给两层极淡阴影兜底：
+   照片亮部刚好落在字下时也不至于糊掉。不动大标题与留白节奏。 */
 .open__kick {
   font-size: 0.8rem; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 18px;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
 }
-.open__h { font-size: var(--fs-hero); max-width: 16em; }
+.open__h { font-size: var(--fs-hero); max-width: 16em; color: var(--on-photo); }
 .open__sub {
-  margin-top: 20px; color: #e0e6ec; font-size: 1.06rem; font-weight: 600;
+  margin-top: 20px; color: var(--on-photo-muted); font-size: 1.06rem; font-weight: 600;
   letter-spacing: 0.01em; max-width: 46ch;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
 }
@@ -212,7 +223,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   right: 0; top: 0; bottom: 0;
   width: 3px;
   z-index: 60;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border);
 }
 .filmstrip__fill {
   width: 100%;
@@ -253,7 +264,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .reel__num {
   font-size: clamp(3.4rem, 12vw, 9rem); font-weight: 800;
   line-height: 0.95; letter-spacing: -0.04em;
-  color: var(--text);
+  color: var(--on-photo);
   text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
   /* 等宽数字：滚动计数时数字宽度不抖（每次 +1 不再左右跳） */
   font-variant-numeric: tabular-nums;
@@ -262,10 +273,10 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .reel__label {
   margin-top: 10px; font-size: clamp(0.9rem, 1.6vw, 1.15rem);
   letter-spacing: 0.24em; text-transform: uppercase;
-  /* 改用 --text（近白）而不是 --text-muted：独立复核指出这一行
-     压在照片上"刚刚够看"（约 4:1），能过只因为背后那张照片恰好偏暗 ——
-     是运气不是设计。换成主文字色后对比有余量，不再依赖运气。 */
-  color: var(--text);
+  /* 这一行压在照片上"刚刚够看"（约 4:1），能过只因为背后那张照片恰好偏暗 ——
+     是运气不是设计。换成 --on-photo 后对比有余量，不再依赖运气；
+     注意不能用 --text：亮色主题下它已经变成深色。 */
+  color: var(--on-photo);
   /* 再加一层很淡的文字阴影兜底：照片亮部若正好落在这一行上也能读。 */
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85), 0 0 2px rgba(0, 0, 0, 0.7);
 }
@@ -294,10 +305,10 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 
 .kick {
   font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 14px;
+  color: var(--accent-ink); margin-bottom: 14px;
 }
 .big { font-size: var(--fs-h2); margin-bottom: 26px; }
-.bigp { font-size: clamp(1.02rem, 1.7vw, 1.28rem); line-height: 1.72; color: #dde3e9; max-width: 62ch; }
+.bigp { font-size: clamp(1.02rem, 1.7vw, 1.28rem); line-height: 1.72; color: var(--text); max-width: 62ch; }
 .muted { color: var(--text-muted); font-size: 0.96rem; max-width: 62ch; margin-bottom: 22px; }
 .foot-note { margin-top: 18px; font-size: 0.83rem; color: var(--text-muted); border-left: 2px solid var(--accent); padding-left: 12px; }
 .k3 { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; font-weight: 700; }
@@ -307,12 +318,13 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
    而 .duo 要 300px，实测 scrollWidth 324 > clientWidth 320。
    min(Npx, 100%) 在宽视口恒等于 Npx（桌面零变化），窄视口自动退到容器宽。
    下面所有 auto-fit 网格统一这个写法，不靠逐个断点打补丁；
-   .insrow 是 overflow-x:auto 的横排卡片，用 grid-auto-columns 定宽是有意为之，不在此列。 */
+   .inslist 是逐行列表，不用 auto-fill 轨道；.photorow__grid 的轨道已用
+   min(Npx, 100%) 收口，不在此列。 */
 .duo { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 
 /* 材料墙：大字排铺 */
 .mats { display: grid; gap: 26px 40px; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
-.mat__f { font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.mat__f { font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-ink); font-weight: 700; }
 .mat__g { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
 .mat__g span {
   font-size: clamp(1.1rem, 2.1vw, 1.5rem); font-weight: 800;
@@ -327,15 +339,12 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .strip img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-radius: var(--radius); }
 
 /* ---------------------------------------------------------------- 实拍一览
-   一屏一主角：每组一张主图进主叙事链路（与正文同宽、限高、不铺满），
-   其余实拍证据收在本组原生 <details> 展开层；零新增 JS。
+   2026-11-13：需求方要「照片一起显示」，六组照片在响应式网格里一次全部可见。
+   原来的一屏一张 scroll-snap 走马灯连箭头、n/N、圆点一起撤掉；44 张仍在 DOM、
+   仍懒加载、仍有 --ph-w 占位，点图放大沿用全站 data-zoom 委托，零设计专用 JS。
 
-   为什么删掉原来的 4:3 + object-fit:cover：44 张里实测 22 张是竖构图，
-   定死 4:3 再 cover 会把竖图上下半截裁掉。实拍证据的职责是「逐张看清」
-   （见 CONTEXT.md），不能为了版面整齐裁掉主体。现在 width:auto +
-   max-width:100% + height:auto + max-height:68svh，按落盘文件真实比例
-   整张可见；width/height 属性让浏览器加载前就留出正确比例，不会加载完再跳。
-   2026-11-05 判据修订：满幅只属于氛围底图，实拍证据不铺满（见 CONTEXT.md）。 */
+   网格轨道写 min(280px, 100%)：宽屏三列，320px 窄屏退到一列；裸 280px
+   会把 272px 的内容区顶出横向滚动条（见 4.25）。 */
 /* 分类导航：组别和张数一眼可见，锚点直达，不靠往下滚去猜。 */
 .photocats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .photocats a {
@@ -343,8 +352,8 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px;
   font-size: 0.88rem; color: var(--text-muted);
 }
-.photocats a:hover, .photocats a:focus-visible { color: var(--accent); border-color: var(--accent); }
-.photocats b { font-size: 0.76rem; color: var(--accent); }
+.photocats a:hover, .photocats a:focus-visible { color: var(--accent-ink); border-color: var(--accent); }
+.photocats b { font-size: 0.76rem; color: var(--accent-ink); }
 
 .photorow { margin-top: clamp(72px, 10vw, 140px); scroll-margin-top: 84px; }
 /* 第一组紧跟分类导航，再叠 140px 会把首张图连同图注整块推到折线以下。
@@ -357,86 +366,38 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .photorow__head .muted { margin-bottom: 0; }
 .photorow__n { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
 
-/* 按钮只是图片的放大入口，不是卡片：无底无框，光标提示可放大。
-   放大沿用全站共用的 data-zoom 委托处理器，禁用 JS 时图片照常可见。 */
+/* 按钮只是图片的放大入口，不是卡片：无底无框，光标提示可放大。 */
 .photorow__zoom {
-  display: grid; align-content: center; justify-items: start;
-  width: 100%; height: 68svh; margin: 0; padding: 0;
+  display: grid; align-content: start; justify-items: stretch;
+  width: 100%; height: auto; margin: 0; padding: 0;
   background: none; border: 0; color: inherit; font: inherit;
   text-align: left; cursor: zoom-in;
 }
 
-/* 走马灯舞台：与正文同宽、限高、不铺满（判据 4.18）。
-   满幅只属于氛围底图；实拍证据收在 1180px 内容宽内，左对齐留白。
-   2026-11-06：舞台里放的是横向轮播，不再是「一张主图 + 折叠证据层」。 */
+/* 网格与正文同宽、不铺满；不再有固定高度的「舞台」，矮图下面不会空一大截。 */
 .photorow__feature { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-
-/* 纯 CSS 轮播：scroll-snap 把每条 slide 对齐到起点；锚点 href="#slide-id"
-   由浏览器自己滚动最近的横向滚动容器，不需要一行 JS。
-   tabindex="0" 让键盘方向键也能翻，触摸原生可滑。 */
-.photorow__reel {
-  display: flex; overflow-x: auto; overflow-y: hidden;
-  scroll-snap-type: x mandatory; scroll-behavior: smooth;
-  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+.photorow__grid {
+  display: grid; gap: 26px 18px;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
 }
-.photorow__reel::-webkit-scrollbar { height: 6px; }
-.photorow__reel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-/* 同一行的 flex item 会 stretch 到「最高那条 slide」的高度。若各张图的
-   高度不一，矮图那页的图注/控件/圆点之间就会出现一大截死白（1440px
-   实测约 120px）。解法不是把图注压到底部（那只是把空白挪到图与图注
-   之间），而是给每条 slide 一个**等高舞台**：图片在舞台内居中、按原比例
-   contain 显示，于是六组任意一张的图注、翻页控件、圆点都落在同一高度。 */
-.photorow__shot {
-  flex: 0 0 100%; min-width: 0; margin: 0;
-  scroll-snap-align: start; scroll-snap-stop: always;
-}
-.photorow__shot:target .photorow__idx { color: var(--accent); }
+.photorow__shot { min-width: 0; margin: 0; }
 
 /* 图片：按落盘比例整张显示，不裁切。
-   2026-11-05 夜补：只写 width:auto 时，**懒加载且尚未解码**的 img 没有内在
-   尺寸，Chrome 把盒子算成 0×0；图陆续到达会让 #photos 突然长高约 2300px，
-   连带把下面的 About 推走（真浏览器验证「厂门图完整展示」因此报 loaded:false）。
-   min-width 用每张图自己的落盘宽度 --ph-w 给出确定下限，配合 img 上的
-   width/height 属性，浏览器在解码前就能按原比例留好位置；限高夹紧后盒子会
-   比画面略宽，故 object-position 左对齐，画面仍贴组标题左边缘、不居中偏移。
-   2026-11-06：外层 .photorow__zoom 已是等高舞台，图片在里面垂直居中、
-   左对齐，contain 保证任何构图都不裁切；max-height 仍守 68svh 上限。 */
+   懒加载且尚未解码的 img 没有内在尺寸，Chrome 会把盒子算成 0×0；图陆续到达
+   会让 #photos 突然长高约 2300px，连带把 About 与厂门图推走。min-width 用
+   每张图自己的落盘宽度 --ph-w 给出确定下限，配合 img 的 width/height，
+   浏览器在解码前就能按原比例留好位置。 */
 .photorow__shot figcaption {
-  max-width: 1180px; margin: 0;
-  font-size: 0.86rem; color: var(--text-muted);
-  padding: 14px 0 0;
+  max-width: 100%; margin: 0;
+  font-size: 0.82rem; color: var(--text-muted);
+  padding: 10px 0 0;
 }
-/* 舞台等高，图注直接跟在舞台下方即可，不需要 margin-top:auto 去补空白。 */
 .photorow__feature .photorow__zoom img {
   width: auto; max-width: 100%; height: auto; max-height: 68svh;
   min-width: min(100%, var(--ph-w, 900px)); object-position: left center;
   object-fit: contain; display: block;
 }
 
-/* 每条 slide 自带上一张 / 下一张与 n/N 计数；首尾环绕。
-   不做自动轮播：会抢阅读节奏、与 prefers-reduced-motion 冲突，
-   没有 JS 时也无法在读者打断后停下。 */
-.photorow__ctl { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
-.photorow__arrow {
-  display: inline-grid; place-items: center; width: 34px; height: 34px;
-  border: 1px solid var(--border); border-radius: 50%;
-  font-size: 1rem; color: var(--text);
-}
-.photorow__arrow:hover, .photorow__arrow:focus-visible {
-  color: var(--accent); border-color: var(--accent);
-}
-.photorow__idx { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.08em; }
-
-/* 组下圆点：直达本组任意一张，44 张默认全部可达。 */
-.photorow__dots { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
-.photorow__dots a {
-  display: inline-grid; place-items: center; min-width: 26px; height: 26px;
-  padding: 0 5px; border-radius: 6px; border: 1px solid transparent;
-  font-size: 0.72rem; color: var(--text-muted);
-}
-.photorow__dots a:hover, .photorow__dots a:focus-visible {
-  color: var(--accent); border-color: var(--accent);
-}
 /* 加工能力：无卡片，靠文字分组与留白 */
 .caps { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); margin-bottom: 34px; }
 .cap h3 { font-size: 1.12rem; margin-bottom: 8px; }
@@ -449,7 +410,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); font: inherit; color: inherit; overflow: hidden;
 }
-.cert:hover { border-color: rgba(255, 255, 255, 0.34); }
+.cert:hover { border-color: rgba(0, 0, 0, 0.24); }
 .cert img { aspect-ratio: 4 / 3; object-fit: contain; width: 100%; background: #fff; }
 .cert span { display: block; padding: 9px 12px; font-size: 0.8rem; color: var(--text-muted); }
 
@@ -471,7 +432,7 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 /* 流程 */
 .flow { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
 .flow li { padding: 20px 20px 20px 0; border-top: 2px solid var(--accent); }
-.flow__n { font-size: 0.78rem; font-weight: 800; color: var(--accent); letter-spacing: 0.1em; }
+.flow__n { font-size: 0.78rem; font-weight: 800; color: var(--accent-ink); letter-spacing: 0.1em; }
 .flow li b { display: block; margin-top: 6px; font-size: 1.08rem; }
 .flow__d { color: var(--text-muted); font-size: 0.88rem; }
 
@@ -487,9 +448,9 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .close { background: var(--bg-2); }
 .contact { display: grid; gap: 26px; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); margin-top: 30px; }
 .contact > div { display: flex; flex-direction: column; gap: 6px; }
-.contact b { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+.contact b { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-ink); }
 .contact span, .contact a { font-size: clamp(1.05rem, 2vw, 1.35rem); font-weight: 700; word-break: break-all; }
-.contact a:hover { color: var(--accent); }
+.contact a:hover { color: var(--accent-ink); }
 
 .foot {
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
@@ -514,7 +475,6 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   transition: opacity 900ms var(--ease), transform 900ms var(--ease);
 }
 @media (prefers-reduced-motion: reduce) {
-  .photorow__reel { scroll-behavior: auto; }
   .js-ready [data-reveal] { opacity: 1; transform: none; }
   .open__bg img, .reel__bg img, .open__cta span { animation: none; }
   /* 跑马灯是无限循环动画：skill §6.B（非协商条款）要求在
@@ -526,19 +486,13 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 /* ---------------------------------------------------------------- 响应式 */
 @media (max-width: 860px) {
   .bar { padding: 12px 18px; }
-  /* 舞台随视口宽度收敛：桌面上 68svh 与 58vw 取小后仍是 68svh，
-     小屏则按宽度走，避免 342px 宽的横图被塞进 574px 高的空舞台。
-     图片的 max-height 必须同步，否则 68svh 会让它溢出舞台。 */
-  .photorow__zoom { height: min(68svh, 58vw); }
-  .photorow__feature .photorow__zoom img { max-height: min(68svh, 58vw); }
-  .photorow__arrow { width: 40px; height: 40px; }
-  .photorow__dots a { min-width: 30px; height: 30px; }
+  /* 网格在 860px 以下自动退到两列/一列（轨道用 min(280px,100%) 收口），
+     不再需要给走马灯舞台和翻页控件单独收敛尺寸。 */
   .bar__nav {
     position: fixed; top: 0; right: 0; bottom: 0; width: min(78vw, 320px);
     flex-direction: column; gap: 0;
     padding: 76px 24px 24px;
-    background: rgba(13, 16, 19, 0.97);
-    backdrop-filter: blur(14px);
+    background: var(--bar-bg-scrolled);
     border-left: 1px solid var(--border);
     transform: translateX(100%);
     transition: transform .34s var(--ease);
@@ -553,16 +507,12 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 560px) {
   .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mats { gap: 20px; }
-  .photorow__arrow { width: 44px; height: 44px; }
-  .photorow__ctl { gap: 18px; }
   .photorow__head { align-items: flex-start; flex-direction: column; }
-  /* 舞台高度已在 860px 断点按 min(68svh, 58vw) 收敛，这里只调控件尺寸；
-     不再为竖图单开 --tall 分支，避免桌面/小屏两套口径漂移。 */
 
   /* 小屏字距：宽字距是大屏的余裕，不是可读性。390px 实测英文名被挤成
      「…TECHNOLOGY / CO.,LTD.」、eyebrow 被挤成「SINCE / 2017」两处孤字，
      而 eyebrow 离单行只差约 2px。这里**只收紧装饰性 letter-spacing**，
-     字号 / 字重 / 近白颜色一律不动（4.23 刚提上来的识别度不能被抵消）；
+     字号 / 字重 / 文字颜色一律不动（4.23 刚提上来的识别度不能被抵消）；
      再加 text-wrap: balance 兜底 320px 等极窄视口：真要换行就均衡分成两行，
      不许出现 3 个字的孤行。 */
   .bar__en { letter-spacing: 0.04em; text-wrap: balance; }
@@ -578,67 +528,78 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------------------------------------------------------------- 行业资讯
-   呈现方式：**大字号首条（封面故事）+ 其余横向滑动卡片**。
-   为什么不用小字列表：本设计是"影片"语言，资讯应以大字开场。
-   横排用 overflow-x 原生滚动（触屏/滚轮都支持），不做 JS 轮播 ——
-   轮播会把内容藏在 JS 里，破坏"静态可搜"的前提。 */
+   2026-11-13 按参考图改成白底逐行列表：橙色分类标签 + 可点标题 + 摘要。
+   标题 href="#ins-<id>" 跳到同页该文全文；全文直接展开、带真锚点与返回链接。
+   为什么不再用「首条大卡 + 横向滑动卡片」：需求方要看的是「一行一条 + 链接」，
+   横滑卡片把后 5 篇藏在视野外，链接也无处安放。 */
 .insights { margin-top: 34px; }
-
-.inslead { border-top: 2px solid var(--accent); padding-top: 26px; }
-.inslead__t {
-  font-size: clamp(1.5rem, 3.6vw, 2.5rem);
-  margin: 10px 0 14px; max-width: 24em;
+.inslist { margin: 0; padding: 0; list-style: none; }
+.inslist__item {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 4px 16px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
 }
-.inslead__s { color: var(--text-muted); font-size: clamp(0.98rem, 1.6vw, 1.12rem); max-width: 56ch; }
+.inslist__item:first-child { border-top: 2px solid var(--accent); }
+.instag {
+  grid-row: 1 / span 2;
+  display: inline-block;
+  margin-top: 2px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--text-on-brand);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+  text-align: center;
+}
+.institle {
+  font-size: clamp(1rem, 1.6vw, 1.18rem); font-weight: 700; line-height: 1.4;
+  color: var(--text);
+  /* 标题就是链接：给一条极淡的下划线做可点提示，hover 再明确变色，
+     不靠「用户猜这是不是链接」。 */
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 4px;
+}
+.institle:hover, .institle:focus-visible { color: var(--accent-ink); text-decoration: underline; }
+.inssum { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+.infull__title { margin-top: 64px; }
+.insfull { display: grid; gap: 44px; }
+.insfull__item {
+  scroll-margin-top: 84px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.insfull__tag {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+  color: var(--accent-ink);
+}
+.insfull__t { font-size: clamp(1.1rem, 2vw, 1.45rem); margin: 8px 0 4px; line-height: 1.35; }
+.insback {
+  display: inline-block; margin-top: 18px;
+  font-size: 0.85rem; font-weight: 700; color: var(--accent-ink);
+}
+.insback:hover { text-decoration: underline; }
 
 .insdetail { margin-top: 16px; }
-.insdetail > summary {
-  cursor: pointer; list-style: none;
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.9rem; font-weight: 700; color: var(--accent);
-  border-bottom: 1px solid var(--accent); padding-bottom: 2px;
-}
-.insdetail > summary::-webkit-details-marker { display: none; }
-.insdetail[open] > summary { margin-bottom: 18px; }
-.insdetail > div h4 {
+.insdetail h4 {
   font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-muted); margin: 20px 0 8px;
+  color: var(--accent-ink); margin: 20px 0 8px;
 }
-.insdetail > div p { color: #dde3e9; font-size: 0.95rem; margin-bottom: 8px; }
-.insdetail > div ul { padding-left: 1.2em; list-style: disc; }
-.insdetail > div li { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
+.insdetail p { color: var(--text); font-size: 0.95rem; margin-bottom: 8px; }
+.insdetail ul { padding-left: 1.2em; list-style: disc; }
+.insdetail li { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 6px; }
 .insbasis {
   margin-top: 18px; padding: 12px 14px;
-  border-left: 2px solid var(--accent); background: rgba(255, 255, 255, 0.04);
+  border-left: 2px solid var(--accent); background: var(--surface);
   font-size: 0.82rem; color: var(--text-muted);
 }
 .insbasis b { color: var(--text); }
 
-/* 横排卡片：原生横向滚动。scroll-snap 让每张卡停得整齐。 */
-.insrow {
-  margin-top: 44px;
-  display: grid; grid-auto-flow: column;
-  grid-auto-columns: minmax(260px, 1fr);
-  gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 14px;
-  /* 自定义细滚动条，别用系统粗条破坏黑底观感 */
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent) transparent;
+@media (max-width: 560px) {
+  .inslist__item { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .instag { grid-row: auto; justify-self: start; }
 }
-.insrow::-webkit-scrollbar { height: 4px; }
-.insrow::-webkit-scrollbar-thumb { background: var(--accent); }
-.inscard {
-  scroll-snap-align: start;
-  padding: 22px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  border-radius: var(--radius);
-}
-.inscard__tag {
-  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--accent); font-weight: 700;
-}
-.inscard__t { font-size: 1.12rem; margin: 8px 0 8px; line-height: 1.35; }
-.inscard__s { color: var(--text-muted); font-size: 0.88rem; }
