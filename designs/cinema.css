@@ -6,8 +6,10 @@
  * B 是"看"的（满屏图、巨字、极简文字量）。两者不能互相推导出来。
  *
  * 2026-11-13 需求方照参考图要求整体调淡：白/浅灰底 + 橙色点缀。
- * 满幅照片节（.open / .reel）仍保留深色遮罩，那里有专门的 --on-photo
- * 文字色；亮底与照片底各用一套，不靠同一个 --text 走遍全页。
+ * 2026-11-18 需求方五张截图指出满幅照片节「太黑」：原来 .open / .reel
+ * 用近黑遮罩 + 白字，照片被压掉一层。现改为**浅色渐隐蒙版 + 深色文字**：
+ * 文字所在的底部 / 中心是近不透明白，照片边缘仍清晰可见，亮度与可读性
+ * 不再靠「压黑照片」换来。亮底与照片底各用一套色，不靠同一个 --text 走遍全页。
  * ========================================================================== */
 
 :root {
@@ -23,10 +25,6 @@
   --text-on-brand: #16191d;
   /* 亮底上做正文色时的深橙：#f26a1b 直接当小字会掉到 2.8:1。 */
   --accent-ink: #a63f0c;
-  /* 只给"仍压深色照片遮罩"的文字用，避免亮色主题下白字落到白底上。 */
-  --on-photo: #ffffff;
-  --on-photo-muted: #e6ebf0;
-
   /* 顶栏对比度令牌（2026-11-06 引入，11-13 随亮色主题改向）。顶栏自带
      近不透明**亮**底，文字背后的亮度与照片无关。最坏情况按底图纯黑算：
      0.94 的白色合成后近白，深字对比度仍在 9:1 以上；--bar-ink-sub 因此
@@ -135,33 +133,33 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 }
 @keyframes slowZoom { from { transform: scale(1.1); } to { transform: scale(1); } }
 
-/* 满幅照片节保留深色遮罩：它是"影片"语言的底色，不跟页面一起提亮。
-   这里的文字统一走 --on-photo，不能继承已经变深的 --text（会变成黑字压黑图）。 */
-.open__veil, .reel__veil {
-  position: absolute; inset: 0;
+/* 满幅照片节改用浅色渐隐蒙版：近白在文字区、透明在照片边缘。
+   底部文案落在 0.78~0.92 的白上，最坏情况（底图纯黑）合成后亮度仍 ≥0.78，
+   深色正文对比度 >12:1；顶部只留 0.04 的白，照片本身不糊、不发灰。 */
+.open__veil, .reel__veil { position: absolute; inset: 0; }
+.open__veil {
   background: linear-gradient(
     to top,
-    rgba(9, 11, 14, 0.94) 0%,
-    rgba(9, 11, 14, 0.7) 42%,
-    rgba(9, 11, 14, 0.3) 100%
+    rgba(245, 246, 248, 0.92) 0%,
+    rgba(245, 246, 248, 0.78) 32%,
+    rgba(245, 246, 248, 0.24) 72%,
+    rgba(245, 246, 248, 0.04) 100%
   );
 }
 .open__in { position: relative; z-index: 1; padding: 0 24px 9vh; max-width: 1180px; margin: 0 auto; width: 100%; }
-/* 首屏小字：对比度本来够（实测 5.3～7.0:1），问题在**识别度** ——
-   11.8px 的琥珀 eyebrow 与 16.3px 的浅灰牌号行在满幅照片上太轻，扫一眼
-   会直接略过。加一档字号 / 字重、把牌号提到近白，并给两层极淡阴影兜底：
-   照片亮部刚好落在字下时也不至于糊掉。不动大标题与留白节奏。 */
+/* 首屏小字：对比度本来够，问题在**识别度** ——
+   11.8px 的琥珀 eyebrow 与 16.3px 的浅灰牌号行在照片上太轻，扫一眼
+   会直接略过。加一档字号 / 字重；浅色蒙版下用深橙 --accent-ink、
+   深灰 --text，不再靠白色文字压黑底。 */
 .open__kick {
   font-size: 0.8rem; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 18px;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+  color: var(--accent-ink); margin-bottom: 18px;
 }
-.open__h { font-size: var(--fs-hero); max-width: 16em; color: var(--on-photo); }
+.open__h { font-size: var(--fs-hero); max-width: 16em; color: var(--text); }
 .open__sub {
-  margin-top: 20px; color: var(--on-photo-muted); font-size: 1.06rem; font-weight: 600;
+  margin-top: 20px; color: var(--text); font-size: 1.06rem; font-weight: 600;
   letter-spacing: 0.01em; max-width: 46ch;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
 }
 .open__cta {
   display: inline-flex; align-items: center; gap: 10px;
@@ -244,7 +242,16 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
-.reel__veil { background: linear-gradient(to top, rgba(9,11,14,.9), rgba(9,11,14,.55)); }
+/* 中心近白、边缘透明：数字有稳定亮底，照片仍看得见。
+   最坏情况（底图纯黑）中心 0.92 白合成后亮度 0.92，深色数字 >15:1。 */
+.reel__veil {
+  background: radial-gradient(
+    ellipse 74% 68% at 50% 50%,
+    rgba(245, 246, 248, 0.92) 0%,
+    rgba(245, 246, 248, 0.74) 48%,
+    rgba(245, 246, 248, 0.12) 100%
+  );
+}
 .reel__in { position: relative; z-index: 1; text-align: center; padding: 40px 24px; }
 /* 卷轴内容入场（动机=storytelling：先看到数字落定，标签再跟上来）。
    挂在 .js-ready 与 data-revealed 下：JS 没跑时内容照常显示。 */
@@ -264,21 +271,16 @@ ol, ul { margin: 0; padding: 0; list-style: none; }
 .reel__num {
   font-size: clamp(3.4rem, 12vw, 9rem); font-weight: 800;
   line-height: 0.95; letter-spacing: -0.04em;
-  color: var(--on-photo);
-  text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  color: var(--text);
   /* 等宽数字：滚动计数时数字宽度不抖（每次 +1 不再左右跳） */
   font-variant-numeric: tabular-nums;
 }
-.reel__unit { font-size: clamp(1rem, 2.4vw, 1.8rem); font-weight: 700; color: var(--accent); }
+.reel__unit { font-size: clamp(1rem, 2.4vw, 1.8rem); font-weight: 700; color: var(--accent-ink); }
 .reel__label {
   margin-top: 10px; font-size: clamp(0.9rem, 1.6vw, 1.15rem);
   letter-spacing: 0.24em; text-transform: uppercase;
-  /* 这一行压在照片上"刚刚够看"（约 4:1），能过只因为背后那张照片恰好偏暗 ——
-     是运气不是设计。换成 --on-photo 后对比有余量，不再依赖运气；
-     注意不能用 --text：亮色主题下它已经变成深色。 */
-  color: var(--on-photo);
-  /* 再加一层很淡的文字阴影兜底：照片亮部若正好落在这一行上也能读。 */
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85), 0 0 2px rgba(0, 0, 0, 0.7);
+  /* 落在中心近白蒙版上，用深灰正文色；不再靠白字压黑照片碰运气。 */
+  color: var(--text-muted);
 }
 
 /* ---------------------------------------------------------------- 区块 */
